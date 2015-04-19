@@ -1,0 +1,12 @@
+<resources>
+
+    <color name="red">#f51f03</color>
+    <color name="normal_gray">#bfbfbf</color>
+    <color name="sea_blue">#1196db</color>
+    <color name="main_bg">#FFF7F7F7</color>
+    <color name="linear_pressed">#ffebebeb</color>
+    <color name="light_gray">#ffa2a2a2</color>
+    <color name="main_theme">#214D94</color>
+    <color name="light_gray_white">#EEEEEE</color>
+
+</resources>

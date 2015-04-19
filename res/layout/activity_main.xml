@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/top_bar"
+        layout="@layout/top_bar" />
+
+    <include
+        android:id="@+id/bottom_menu_ly"
+        layout="@layout/bottom_menu" />
+
+    <com.mtu.foundation.view.MainViewPager
+        android:id="@+id/tabpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_menu_ly"
+        android:layout_below="@id/top_bar"
+        android:layout_gravity="center"
+        android:background="@color/main_bg" />
+
+</RelativeLayout>

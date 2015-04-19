@@ -1,0 +1,520 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/shape_bg_nocorner"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/account_security_lay"
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="捐赠金额"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/v_result_1"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入捐赠金额"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:id="@+id/account_schoolcard_lay"
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="捐赠项目"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/account_schoolcards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:hint="请选择捐赠项目"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconfont_submenu" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/suggestion"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_margin="0dip"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="简短描述捐赠说明（可不填写）"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:minLines="3"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_bg_nocorner"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="姓名"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入您的姓名"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="称谓"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:gravity="right"
+                        android:minWidth="90dp"
+                        android:text="先生"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconfont_submenu" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="是否校友"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:gravity="right"
+                        android:minWidth="90dp"
+                        android:text="是"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconfont_submenu" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="电子邮件"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入您的邮箱"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="联系电话"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入联系电话"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="移动电话"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入移动电话"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="是否匿名捐赠"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:gravity="right"
+                        android:minWidth="90dp"
+                        android:text="否"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconfont_submenu" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_bg_nocorner"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="联系地址"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入联系地址（可不填写）"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="邮政编码"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入邮政编码（可不填写）"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    style="@style/lineayWithEditStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="40.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:minWidth="90dp"
+                        android:text="工作单位/职务"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:background="@null"
+                        android:hint="请输入单位或职务（可不填写）"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
