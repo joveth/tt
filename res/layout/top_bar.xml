@@ -6,16 +6,16 @@
     android:background="@color/main_theme"
     android:padding="4dp" >
 
-    <TextView
+    <ImageView
         android:id="@+id/left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
+        android:background="@drawable/back_btn_selector"
         android:gravity="center"
         android:padding="6dp"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/top_title"

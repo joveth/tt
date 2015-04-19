@@ -1,13 +1,16 @@
 package com.mtu.foundation.net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.mtu.foundation.bean.DonateBean;
 import com.mtu.foundation.bean.NewsBean;
 import com.mtu.foundation.bean.ThankBean;
 import com.mtu.foundation.util.CommonUtil;
@@ -195,7 +198,60 @@ public class HTMLParser {
 			}
 		}
 		return list;
-
 	}
 
+	public DonateBean getInitDonateBean() {
+		DonateBean bean = null;
+		Document doc = Jsoup.parse(builder.toString());
+		Element rootEle = doc.getElementById(Constants.THANKS_PAGE_MAIN_ID);
+		if (rootEle == null) {
+			return bean;
+		}
+		Element form_ele = rootEle.getElementById("donate-form");
+		if (form_ele == null) {
+			return bean;
+		}
+		Element item = form_ele.getElementById("edit-item");
+		if (item == null) {
+			return bean;
+		}
+		Elements items = item.getElementsByTag("option");
+		if (items == null || items.size() == 0) {
+			return bean;
+		}
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < items.size(); i++) {
+			Element obj = items.get(i);
+			list.add(obj.attr("value"));
+		}
+		bean = new DonateBean();
+		bean.setItemList(list);
+		Element bank = form_ele.getElementById("edit-bank");
+		if (bank == null) {
+			return bean;
+		}
+		Elements banks = bank.getElementsByTag("div");
+		if (banks == null || banks.size() == 0) {
+			return bean;
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		for (int i = 0; i < banks.size(); i++) {
+			Element obj = banks.get(i);
+			Elements input_ele = obj.getElementsByTag("input");
+			if (input_ele == null || input_ele.size() == 0) {
+				continue;
+			}
+			String bankKey = input_ele.attr("value");
+			if (CommonUtil.isEmpty(bankKey)) {
+				continue;
+			}
+			Elements label_ele = obj.getElementsByTag("label");
+			if (label_ele == null || label_ele.size() == 0) {
+				continue;
+			}
+			map.put(bankKey, label_ele.text());
+		}
+		bean.setBankMap(map);
+		return bean;
+	}
 }

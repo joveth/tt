@@ -1,7 +1,9 @@
 package com.mtu.foundation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,9 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mtu.foundation.util.ExitAppUtil;
+import com.mtu.foundation.view.CustomProgressDialog;
 
 public abstract class BaseActivity extends Activity implements OnClickListener {
-	protected TextView leftBtn,title, rightBtn;
+	protected TextView title, rightBtn;
+	protected View leftBtn;
+	protected CustomProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,25 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 			}
 		}
 		return false;
+	}
+
+	protected void showSimpleMessageDialog(String msg) {
+		if (isFinishing()) {
+			return;
+		}
+		new AlertDialog.Builder(this).setTitle(null)
+				.setNegativeButton("确定", null).setMessage(msg).show();
+	}
+
+	protected void showMsgDialogWithCallback(String msg) {
+		new AlertDialog.Builder(this).setTitle(null)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						dialogInterface.dismiss();
+						finish();
+					}
+				}).setCancelable(false).setMessage(msg).show();
 	}
 
 	@Override

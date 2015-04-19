@@ -48,10 +48,9 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 		HttpResponse httpResponse;
 		try {
 			if (paramspost != null) {
-				post.setEntity(new UrlEncodedFormEntity(paramspost, HTTP.UTF_8));
+				post.setEntity((new UrlEncodedFormEntity(paramspost, HTTP.UTF_8)));
 			}
-			post.setHeader("Content-Type", MediaType.TEXT_HTML);
-			post.setHeader("Accept-Encoding", "gzip,deflate");
+			
 			Log.d("request.url", url);
 			HttpClient httpClient = HttpUtil.getHttpsClient(url, timeout);
 			httpResponse = httpClient.execute(post);
@@ -68,7 +67,7 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 					InputStream is = obj.getContent();
 					is = new GZIPInputStream(new BufferedInputStream(is));
 					InputStreamReader reader = new InputStreamReader(is,
-							"utf-8");
+							"gbk");
 					char[] data = new char[100];
 					int readSize;
 					StringBuffer sb = new StringBuffer();
@@ -79,9 +78,9 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 					reader.close();
 					is.close();
 				} else {
-					retjson = EntityUtils.toString(obj);
+					retjson = EntityUtils.toString(obj,"gbk");
 				}
-				Log.d("ret", retjson + "");
+				Log.d("retpost", retjson + "");
 				resp.setRetjson(retjson);
 			} else {
 				resp.setRetcode(httpResponse.getStatusLine().getStatusCode());

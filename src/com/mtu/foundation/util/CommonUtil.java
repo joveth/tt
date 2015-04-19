@@ -1,8 +1,10 @@
 package com.mtu.foundation.util;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class CommonUtil {
 	private static Calendar calendar = Calendar.getInstance();
@@ -15,19 +17,16 @@ public class CommonUtil {
 		return String.valueOf(calendar.get(Calendar.YEAR));
 	}
 
-	public static void CopyStream(InputStream is, OutputStream os) {
-		final int buffer_size = 1024;
-		try {
-			byte[] bytes = new byte[buffer_size];
-			for (;;) {
-				int count = is.read(bytes, 0, buffer_size);
-				if (count == -1)
-					break;
-				os.write(bytes, 0, count);
-				is.close();
-				os.close();
+	public static boolean isNetWorkConnected(Context context) {
+		if (context != null) {
+			ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+					.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo mNetworkInfo = mConnectivityManager
+					.getActiveNetworkInfo();
+			if (mNetworkInfo != null) {
+				return mNetworkInfo.isAvailable();
 			}
-		} catch (Exception ex) {
 		}
+		return false;
 	}
 }

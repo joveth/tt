@@ -1,7 +1,13 @@
 package com.mtu.foundation;
 
-import com.mtu.foundation.util.Constants;
+import org.apache.http.HttpStatus;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +21,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.mtu.foundation.net.httpjersey.Callback;
+import com.mtu.foundation.net.httpjersey.NetworkHandler;
+import com.mtu.foundation.net.httpjersey.TransResp;
+import com.mtu.foundation.util.CommonUtil;
+import com.mtu.foundation.util.Constants;
+import com.mtu.foundation.view.CustomProgressDialog;
+
 public class WebViewActivity extends BaseActivity {
 	private WebView webView;
 	private String url;
@@ -22,6 +35,10 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!CommonUtil.isNetWorkConnected(this)) {
+			showMsgDialogWithCallback("网络无法连接，请检查网络！");
+			return;
+		}
 		setContentView(R.layout.activity_webview);
 		inidData();
 		initView();
@@ -30,12 +47,21 @@ public class WebViewActivity extends BaseActivity {
 	private void inidData() {
 		Intent intent = getIntent();
 		url = intent.getStringExtra("newsurl");
+		progressDialog = new CustomProgressDialog(this, "正在加载...", true);
+		progressDialog.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface arg0) {
+				arg0.dismiss();
+			}
+		});
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void initView() {
-		leftBtn = (TextView) findViewById(R.id.left_btn);
-		leftBtn.setText("返回");
+		leftBtn = findViewById(R.id.left_btn);
 		leftBtn.setOnClickListener(this);
+		leftBtn.setVisibility(View.VISIBLE);
 		title = (TextView) findViewById(R.id.top_title);
 		title.setText("新闻公告");
 		webView = (WebView) findViewById(R.id.webview);
@@ -48,7 +74,7 @@ public class WebViewActivity extends BaseActivity {
 		} else {
 			webView.getSettings().setDefaultZoom(ZoomDensity.CLOSE);
 		}
-		webView.getSettings().setJavaScriptEnabled(true);// 允许webkit执行js代码；
+		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public boolean onJsAlert(WebView view, String url, String message,
@@ -70,6 +96,9 @@ public class WebViewActivity extends BaseActivity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				Log.d("url", url);
+				if (progressDialog != null) {
+					progressDialog.dismiss();
+				}
 			}
 
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -77,7 +106,7 @@ public class WebViewActivity extends BaseActivity {
 				super.onPageStarted(view, url, favicon);
 			}
 		});
-		webView.loadUrl(Constants.URI_DOMAIN + url);
+		getData();
 	}
 
 	@Override
@@ -85,6 +114,37 @@ public class WebViewActivity extends BaseActivity {
 		if (view == leftBtn) {
 			finish();
 		}
+	}
+
+	private void htmlContent(String html) {
+		try {
+			Document doc = Jsoup.parse(html);
+			Element rootEle = doc.getElementById("content");
+			String htmlHeader = "<style type=\"text/css\"> img{width:100%!important}; h1{font-size:20px}</style>";
+			webView.loadDataWithBaseURL(null, htmlHeader + rootEle.html(),
+					"text/html", "utf-8", null);
+		} catch (Exception e) {
+			if (progressDialog != null) {
+				progressDialog.dismiss();
+			}
+		}
+	}
+
+	private void getData() {
+		NetworkHandler networkHandler = NetworkHandler.getInstance();
+		networkHandler.get(Constants.URI_DOMAIN + url, null, 30,
+				new Callback<TransResp>() {
+					@Override
+					public void callback(TransResp tr) {
+						if (tr.getRetcode() == HttpStatus.SC_OK) {
+							htmlContent(tr.getRetjson());
+						} else {
+							if (progressDialog != null) {
+								progressDialog.dismiss();
+							}
+						}
+					}
+				});
 	}
 
 }

@@ -69,37 +69,40 @@ public class NewsFrame extends Fragment implements
 				new Callback<TransResp>() {
 					@Override
 					public void callback(TransResp tr) {
-						if (tr.getRetcode() == HttpStatus.SC_OK) {
-							if (parser == null) {
-								parser = new HTMLParser(tr.getRetjson());
-							} else {
-								parser.setHTMLStr(tr.getRetjson());
-							}
-							List<NewsBean> tempList = parser.getNews();
-							if (PULL_STATE == 1) {
-								list.clear();
-								String last = parser.getLastPager();
-								Log.d("last_pager", last + "");
-								if (!CommonUtil.isEmpty(last)) {
-									try {
-										totalPage = Integer.parseInt(last);
-										Log.d("totalPage", totalPage + "");
-									} catch (Exception e) {
+						try {
+							if (tr.getRetcode() == HttpStatus.SC_OK) {
+								if (parser == null) {
+									parser = new HTMLParser(tr.getRetjson());
+								} else {
+									parser.setHTMLStr(tr.getRetjson());
+								}
+								List<NewsBean> tempList = parser.getNews();
+								if (PULL_STATE == 1) {
+									list.clear();
+									String last = parser.getLastPager();
+									Log.d("last_pager", last + "");
+									if (!CommonUtil.isEmpty(last)) {
+										try {
+											totalPage = Integer.parseInt(last);
+											Log.d("totalPage", totalPage + "");
+										} catch (Exception e) {
 
+										}
 									}
 								}
-							}
-							list.addAll(tempList);
-							if (totalPage == 0) {
-								String last = parser.getLastPager();
-								if (!CommonUtil.isEmpty(last)) {
-									try {
-										totalPage = Integer.parseInt(last);
-									} catch (Exception e) {
+								list.addAll(tempList);
+								if (totalPage == 0) {
+									String last = parser.getLastPager();
+									if (!CommonUtil.isEmpty(last)) {
+										try {
+											totalPage = Integer.parseInt(last);
+										} catch (Exception e) {
+										}
 									}
 								}
+								adapter.notifyDataSetChanged();
 							}
-							adapter.notifyDataSetChanged();
+						} finally {
 							pullDownView.refreshComplete();
 							pullDownView.notifyDidMore();
 						}
