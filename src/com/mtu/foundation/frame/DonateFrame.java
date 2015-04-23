@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,11 +26,14 @@ import com.mtu.foundation.PayRouteActivity;
 import com.mtu.foundation.R;
 import com.mtu.foundation.bean.DonateBean;
 import com.mtu.foundation.net.HTMLParser;
+import com.mtu.foundation.net.ThreadPoolUtils;
 import com.mtu.foundation.net.httpjersey.Callback;
 import com.mtu.foundation.net.httpjersey.NetworkHandler;
 import com.mtu.foundation.net.httpjersey.TransResp;
 import com.mtu.foundation.util.CommonUtil;
 import com.mtu.foundation.util.Constants;
+import com.mtu.foundation.util.FileOperRunnable;
+import com.mtu.foundation.util.FileUtil;
 
 public class DonateFrame extends Fragment implements OnClickListener {
 	private View view, vItemLay, vGendarLay, vAlumiLay, vAnonymousLay,
@@ -46,6 +51,7 @@ public class DonateFrame extends Fragment implements OnClickListener {
 			vCellphoneTxt, vAddressTxt, vPostcodeTxt, vCompanyTxt;
 	private TextView vItemTxt, vgendarTxt, vAlumniTxt, vAnonymousTxt;
 	private double price;
+	private Handler cacheHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -53,8 +59,11 @@ public class DonateFrame extends Fragment implements OnClickListener {
 		view = inflater.inflate(R.layout.tab_donate, container, false);
 		context = view.getContext();
 		initData();
-		getData(false);
 		initView();
+		initOther();
+		ThreadPoolUtils.execute(new FileOperRunnable(FileUtil
+				.getCacheFile(Constants.CACHE_DONATE), true, false, null,
+				cacheHandler));
 		return view;
 	}
 
@@ -145,6 +154,25 @@ public class DonateFrame extends Fragment implements OnClickListener {
 		vPostcodeTxt = (EditText) view.findViewById(R.id.item_postcode_txt);
 		vCompanyTxt = (EditText) view.findViewById(R.id.item_company_txt);
 
+	}
+
+	private void initOther() {
+		cacheHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case Constants.READ_RESULT_OK:
+					String cacheData = (String) msg.obj;
+					if (!CommonUtil.isEmpty(cacheData)) {
+						tranceData(false, cacheData);
+					} else {
+						getData(false);
+					}
+					break;
+				}
+			}
+		};
 	}
 
 	@Override
@@ -251,26 +279,7 @@ public class DonateFrame extends Fragment implements OnClickListener {
 					@Override
 					public void callback(TransResp tr) {
 						if (tr.getRetcode() == HttpStatus.SC_OK) {
-							if (parser == null) {
-								parser = new HTMLParser(tr.getRetjson());
-							} else {
-								parser.setHTMLStr(tr.getRetjson());
-							}
-							donateBean = parser.getInitDonateBean();
-							if (donateBean != null) {
-								List<String> temp = donateBean.getItemList();
-								if (temp != null && temp.size() > 0) {
-									itemListStr = new String[temp.size()];
-									for (int i = 0; i < temp.size(); i++) {
-										itemListStr[i] = temp.get(i);
-									}
-									item = itemListStr[0];
-									vItemTxt.setText(item);
-									if (showFlag) {
-										showItemDialog();
-									}
-								}
-							}
+							tranceData(showFlag, tr.getRetjson());
 						} else {
 							if (showFlag) {
 								showSimpleMessageDialog("加载失败了");
@@ -278,6 +287,29 @@ public class DonateFrame extends Fragment implements OnClickListener {
 						}
 					}
 				});
+	}
+
+	private void tranceData(boolean showFlag, String html) {
+		if (parser == null) {
+			parser = new HTMLParser(html);
+		} else {
+			parser.setHTMLStr(html);
+		}
+		donateBean = parser.getInitDonateBean();
+		if (donateBean != null) {
+			List<String> temp = donateBean.getItemList();
+			if (temp != null && temp.size() > 0) {
+				itemListStr = new String[temp.size()];
+				for (int i = 0; i < temp.size(); i++) {
+					itemListStr[i] = temp.get(i);
+				}
+				item = itemListStr[0];
+				vItemTxt.setText(item);
+				if (showFlag) {
+					showItemDialog();
+				}
+			}
+		}
 	}
 
 	private void showItemDialog() {

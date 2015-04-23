@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.mtu.foundation.R;
-import com.mtu.foundation.adapter.NewsItemAdapter;
-import com.mtu.foundation.bean.NewsBean;
+import com.mtu.foundation.adapter.ThanksItemAdapter;
+import com.mtu.foundation.bean.ThankBean;
 import com.mtu.foundation.net.HTMLParser;
 import com.mtu.foundation.net.ThreadPoolUtils;
 import com.mtu.foundation.net.httpjersey.Callback;
@@ -31,36 +31,36 @@ import com.mtu.foundation.util.FileOperRunnable;
 import com.mtu.foundation.util.FileUtil;
 import com.mtu.foundation.view.PullDownView;
 
-public class NewsFrame extends Fragment implements
+public class ThanksFrame extends Fragment implements
 		PullDownView.OnPullDownListener {
 	private View view;
 	private Context context;
 	private NetworkHandler networkHandler;
 	private ListView listView;
-	private List<NewsBean> list;
-	private NewsItemAdapter adapter;
+	private List<ThankBean> list;
+	private ThanksItemAdapter adapter;
 	private PullDownView pullDownView;
 	private Handler cacheHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.tab_news, container, false);
+		view = inflater.inflate(R.layout.tab_thanks, container, false);
 		context = view.getContext();
 		initView();
 		initOther();
 		networkHandler = NetworkHandler.getInstance();
 		ThreadPoolUtils.execute(new FileOperRunnable(FileUtil
-				.getCacheFile(Constants.CACHE_NEWS), true, false, null,
+				.getCacheFile(Constants.CACHE_THANKS), true, false, null,
 				cacheHandler));
 		return view;
 	}
 
 	private void initView() {
-		pullDownView = (PullDownView) view.findViewById(R.id.news_listview);
+		pullDownView = (PullDownView) view.findViewById(R.id.thanks_listview);
 		listView = pullDownView.getListView();
-		list = new ArrayList<NewsBean>();
-		adapter = new NewsItemAdapter(context, list);
+		list = new ArrayList<ThankBean>();
+		adapter = new ThanksItemAdapter(context, list);
 		listView.setAdapter(adapter);
 		pullDownView.setOnPullDownListener(this);
 		pullDownView.enableAutoFetchMore(true, 3);
@@ -98,7 +98,7 @@ public class NewsFrame extends Fragment implements
 	private int page = 0, totalPage = 0;
 
 	private void getData() {
-		networkHandler.get(Constants.URI_NEWS + "?page=" + page, null, 30,
+		networkHandler.get(Constants.URI_THANKS + "?page=" + page, null, 30,
 				new Callback<TransResp>() {
 					@Override
 					public void callback(TransResp tr) {
@@ -112,7 +112,6 @@ public class NewsFrame extends Fragment implements
 						}
 					}
 				});
-
 	}
 
 	private void tranceData(String html) {
@@ -121,7 +120,7 @@ public class NewsFrame extends Fragment implements
 		} else {
 			parser.setHTMLStr(html);
 		}
-		List<NewsBean> tempList = parser.getNews();
+		List<ThankBean> tempList = parser.getThanks();
 		if (PULL_STATE == 1) {
 			list.clear();
 			String last = parser.getLastPager();

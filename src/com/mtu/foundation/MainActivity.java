@@ -18,21 +18,22 @@ import android.widget.Toast;
 
 import com.mtu.foundation.adapter.FramePagerAdaper;
 import com.mtu.foundation.frame.DonateFrame;
+import com.mtu.foundation.frame.MoreFrame;
 import com.mtu.foundation.frame.NewsFrame;
-import com.mtu.foundation.frame.OthersFrame;
+import com.mtu.foundation.frame.ThanksFrame;
 import com.mtu.foundation.util.ExitAppUtil;
 import com.mtu.foundation.view.MainViewPager;
 
 public class MainActivity extends FragmentActivity {
 	private MainViewPager mainViewPager;
 	private List<Fragment> pagerFragments;
-	private View vNews, vDonate, vOthers;
+	private View vNews, vDonate, vOthers, vMore;
 	protected TextView title;
 	private List<ImageView> iconImgs;
 	private List<TextView> iconTxts;
 	private List<String> titles;
-	private TextView newsTxt, donateTxt, othersTxt;
-	private ImageView newsImg, donateImg, othersImg;
+	private TextView newsTxt, donateTxt, othersTxt, moreTxt;
+	private ImageView newsImg, donateImg, othersImg, moreImg;
 	private int currentItem = 1;
 
 	@Override
@@ -51,35 +52,42 @@ public class MainActivity extends FragmentActivity {
 		vNews = findViewById(R.id.news_lay);
 		vDonate = findViewById(R.id.donate_lay);
 		vOthers = findViewById(R.id.others_lay);
+		vMore = findViewById(R.id.more_lay);
 		MenuOnClickListener homeMenuOnClickListener = new MenuOnClickListener(0);
-		MenuOnClickListener msgMenuOnClickListener = new MenuOnClickListener(1);
-		MenuOnClickListener payMenuOnClickListener = new MenuOnClickListener(2);
+		MenuOnClickListener donateMenuOnClickListener = new MenuOnClickListener(
+				1);
+		MenuOnClickListener thanksMenuOnClickListener = new MenuOnClickListener(
+				2);
+		MenuOnClickListener moreMenuOnClickListener = new MenuOnClickListener(3);
 		vNews.setOnClickListener(homeMenuOnClickListener);
-		vDonate.setOnClickListener(msgMenuOnClickListener);
-		vOthers.setOnClickListener(payMenuOnClickListener);
+		vDonate.setOnClickListener(donateMenuOnClickListener);
+		vOthers.setOnClickListener(thanksMenuOnClickListener);
+		vMore.setOnClickListener(moreMenuOnClickListener);
 		titles = new ArrayList<String>();
 		titles.add("新闻公告");
-		titles.add("爱心捐赠");
+		titles.add("我要捐赠");
 		titles.add("捐赠名单");
+		titles.add("更多");
 		newsImg = (ImageView) findViewById(R.id.news_img);
+		newsImg.setSelected(true);
 		donateImg = (ImageView) findViewById(R.id.donate_img);
-		donateImg.setSelected(true);
 		othersImg = (ImageView) findViewById(R.id.others_img);
+		moreImg = (ImageView) findViewById(R.id.more_img);
 		iconImgs = new ArrayList<ImageView>();
 		iconImgs.add(newsImg);
 		iconImgs.add(donateImg);
 		iconImgs.add(othersImg);
-
+		iconImgs.add(moreImg);
 		newsTxt = (TextView) findViewById(R.id.news_txt);
-
+		newsTxt.setSelected(true);
 		donateTxt = (TextView) findViewById(R.id.donate_txt);
-		donateTxt.setSelected(true);
 		othersTxt = (TextView) findViewById(R.id.others_txt);
+		moreTxt = (TextView) findViewById(R.id.more_txt);
 		iconTxts = new ArrayList<TextView>();
 		iconTxts.add(newsTxt);
 		iconTxts.add(donateTxt);
 		iconTxts.add(othersTxt);
-
+		iconTxts.add(moreTxt);
 		initOthers();
 	}
 
@@ -87,10 +95,12 @@ public class MainActivity extends FragmentActivity {
 		pagerFragments = new ArrayList<Fragment>();
 		NewsFrame newsFrame = new NewsFrame();
 		DonateFrame donateFrame = new DonateFrame();
-		OthersFrame paymentFrame = new OthersFrame();
+		ThanksFrame paymentFrame = new ThanksFrame();
+		MoreFrame moreFrame = new MoreFrame();
 		pagerFragments.add(newsFrame);
 		pagerFragments.add(donateFrame);
 		pagerFragments.add(paymentFrame);
+		pagerFragments.add(moreFrame);
 		FramePagerAdaper adapter = new FramePagerAdaper(
 				this.getSupportFragmentManager(), mainViewPager, pagerFragments);
 		adapter.setOnExtraPageChangeListener(new FramePagerAdaper.OnExtraPageChangeListener() {
@@ -99,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 				currentItem = i;
 			}
 		});
-		mainViewPager.setCurrentItem(1);
+		mainViewPager.setCurrentItem(0);
 	}
 
 	private void switchItem(int item) {
@@ -143,12 +153,16 @@ public class MainActivity extends FragmentActivity {
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+			if (currentItem != 0) {
+				mainViewPager.setCurrentItem(0, false);
+				return true;
+			}
 			backTo();
 			return true;
 		} else if (keyCode == KeyEvent.KEYCODE_MENU
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (currentItem != 1) {
-				mainViewPager.setCurrentItem(1, false);
+			if (currentItem != 0) {
+				mainViewPager.setCurrentItem(0, false);
 			}
 		}
 		return super.onKeyDown(keyCode, event);

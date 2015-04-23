@@ -9,5 +9,5 @@
     <color name="main_theme">#02498b</color>
     <color name="light_gray_white">#EEEEEE</color>
     <color name="viewfinder_mask">#60000000</color>
-
+    <color name="line_color">#ffebebeb</color>
 </resources>

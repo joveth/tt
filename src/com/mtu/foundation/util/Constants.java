@@ -5,8 +5,7 @@ public class Constants {
 	public static final String URI_NEWS = "http://edf.shmtu.edu.cn/news.htm";
 	public static final String URI_DOMAIN = "http://edf.shmtu.edu.cn";
 	public static final String URI_DONATE = "http://edf.shmtu.edu.cn/donate";
-	
-	
+
 	public static final String THANKS_PAGE_MAIN_ID = "block-system-main";
 	public static final String THANKS_PAGE_CONTENT_CLASS = "recent_thanks ";
 	public static final String TAG_TABLE = "table";
@@ -21,4 +20,14 @@ public class Constants {
 	public static final String CLASS_LAST_PAGE = "pager-last";
 
 	public static final String CLASS_NEWS_CONTENT = "view-content";
+
+	public static final int RESULT_OK = 1;
+	public static final int RESULT_FAILED = 2;
+	public static final int RESULT_NOCHANGE = 3;
+	public static final int READ_RESULT_OK = 4;
+
+	public static final String CACHE_THANKS = "thanks";
+	public static final String CACHE_NEWS = "news";
+	public static final String CACHE_DONATE = "donate";
+
 }

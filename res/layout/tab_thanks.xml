@@ -3,7 +3,7 @@
     android:layout_height="match_parent" >
 
     <com.mtu.foundation.view.PullDownView
-        android:id="@+id/news_listview"
+        android:id="@+id/thanks_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null" />
