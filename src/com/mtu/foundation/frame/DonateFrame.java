@@ -9,30 +9,40 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mtu.foundation.PayRouteActivity;
 import com.mtu.foundation.R;
+import com.mtu.foundation.RecordsActivity;
 import com.mtu.foundation.bean.DonateBean;
+import com.mtu.foundation.db.DBHelper;
+import com.mtu.foundation.db.RecordBean;
 import com.mtu.foundation.net.HTMLParser;
+import com.mtu.foundation.net.ThreadPoolUtils;
 import com.mtu.foundation.net.httpjersey.Callback;
 import com.mtu.foundation.net.httpjersey.NetworkHandler;
 import com.mtu.foundation.net.httpjersey.TransResp;
 import com.mtu.foundation.util.CommonUtil;
 import com.mtu.foundation.util.Constants;
+import com.mtu.foundation.util.FileOperRunnable;
+import com.mtu.foundation.util.FileUtil;
 
 public class DonateFrame extends Fragment implements OnClickListener {
 	private View view, vItemLay, vGendarLay, vAlumiLay, vAnonymousLay,
-			vNextStep;
+			vNextStep, vRecordBtn, vShowFlag, vUserInforLay, vOtherInforLay;
 	private Context context;
 	private String item, amount, comment, username, gender, is_alumni, email,
 			tel, cellphone, address, postcode, company, is_anonymous, paytype;
@@ -46,15 +56,22 @@ public class DonateFrame extends Fragment implements OnClickListener {
 			vCellphoneTxt, vAddressTxt, vPostcodeTxt, vCompanyTxt;
 	private TextView vItemTxt, vgendarTxt, vAlumniTxt, vAnonymousTxt;
 	private double price;
+	private Handler cacheHandler;
+	private DBHelper dbHelper;
+	private ImageView vShowImg;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.tab_donate, container, false);
 		context = view.getContext();
+		dbHelper = DBHelper.getInstance(context);
 		initData();
-		getData(false);
 		initView();
+		initOther();
+		ThreadPoolUtils.execute(new FileOperRunnable(FileUtil
+				.getCacheFile(Constants.CACHE_DONATE), true, false, null,
+				cacheHandler));
 		return view;
 	}
 
@@ -69,8 +86,6 @@ public class DonateFrame extends Fragment implements OnClickListener {
 		// vItemLay, vGendarLay, vAlumiLay, vAnonymousLay;
 		vNextStep = view.findViewById(R.id.next_step);
 		vNextStep.setOnClickListener(this);
-		vNextStep.setSelected(true);
-		vNextStep.setClickable(false);
 		vItemLay = view.findViewById(R.id.item_project_lay);
 		vItemLay.setOnClickListener(this);
 		vGendarLay = view.findViewById(R.id.item_gender_lay);
@@ -111,21 +126,15 @@ public class DonateFrame extends Fragment implements OnClickListener {
 							return;
 						}
 					}
-					if (price < 0.01 || price > 1000) {
-						vNextStep.setSelected(true);
-						vNextStep.setClickable(false);
-					} else {
-						vNextStep.setSelected(false);
-						vNextStep.setClickable(true);
-						int dot = temp.indexOf(".");
-						if (dot >= 0) {
-							int len = temp.substring(dot + 1).length();
-							if (len > 2) {
-								vAmountTxt.setText(temp.substring(0, dot + 3));
-								vAmountTxt.setSelection(vAmountTxt.getText()
-										.length());
-								return;
-							}
+
+					int dot = temp.indexOf(".");
+					if (dot >= 0) {
+						int len = temp.substring(dot + 1).length();
+						if (len > 2) {
+							vAmountTxt.setText(temp.substring(0, dot + 3));
+							vAmountTxt.setSelection(vAmountTxt.getText()
+									.length());
+							return;
 						}
 					}
 				}
@@ -145,6 +154,74 @@ public class DonateFrame extends Fragment implements OnClickListener {
 		vPostcodeTxt = (EditText) view.findViewById(R.id.item_postcode_txt);
 		vCompanyTxt = (EditText) view.findViewById(R.id.item_company_txt);
 
+		vShowFlag = view.findViewById(R.id.show_flag);
+		vShowFlag.setOnClickListener(this);
+		vShowImg = (ImageView) view.findViewById(R.id.show_flag_img);
+		vShowImg.setOnClickListener(this);
+
+		vUserInforLay = view.findViewById(R.id.user_infor_lay);
+		vOtherInforLay = view.findViewById(R.id.other_infor_lay);
+		vRecordBtn = view.findViewById(R.id.record_btn);
+		vRecordBtn.setOnClickListener(this);
+		initViewData();
+	}
+
+	private void initOther() {
+		cacheHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case Constants.READ_RESULT_OK:
+					String cacheData = (String) msg.obj;
+					if (!CommonUtil.isEmpty(cacheData)) {
+						tranceData(false, cacheData);
+					} else {
+						getData(false);
+					}
+					break;
+				}
+			}
+		};
+	}
+
+	private void initViewData() {
+		RecordBean bean = dbHelper.getLastRecord();
+		Log.d("bean", bean == null ? "" : bean.toString());
+		if (bean != null && !CommonUtil.isEmpty(bean.getUsername())
+				&& !CommonUtil.isEmpty(bean.getEmail())
+				&& !CommonUtil.isEmpty(bean.getCellphone())
+				&& !CommonUtil.isEmpty(bean.getTel())) {
+			vUserInforLay.setVisibility(View.GONE);
+			vOtherInforLay.setVisibility(View.GONE);
+			vShowFlag.setVisibility(View.VISIBLE);
+			vShowImg.setImageResource(R.drawable.iconfont_unselected);
+			vUsernameTxt.setText(bean.getUsername());
+			vEmailTxt.setText(bean.getEmail());
+			vTelTxt.setText(bean.getTel());
+			vCellphoneTxt.setText(bean.getCellphone());
+			vAddressTxt.setText(bean.getAddress());
+			vPostcodeTxt.setText(bean.getPostcode());
+			vCompanyTxt.setText(bean.getCompany());
+			if (!CommonUtil.isEmpty(bean.getGender())) {
+				vgendarTxt.setText(bean.getGender());
+			}
+			if (!CommonUtil.isEmpty(bean.getIs_alumni())) {
+				vAlumniTxt.setText(bean.getIs_alumni());
+			}
+			if (!CommonUtil.isEmpty(bean.getIs_anonymous())) {
+				vAnonymousTxt.setText(bean.getIs_anonymous());
+			}
+			vRecordBtn.setVisibility(View.VISIBLE);
+			showFlag = false;
+		} else {
+			vUserInforLay.setVisibility(View.VISIBLE);
+			vOtherInforLay.setVisibility(View.VISIBLE);
+			vShowFlag.setVisibility(View.GONE);
+			vShowImg.setImageResource(R.drawable.iconfont_unselected);
+			vRecordBtn.setVisibility(View.GONE);
+			showFlag = false;
+		}
 	}
 
 	@Override
@@ -169,7 +246,31 @@ public class DonateFrame extends Fragment implements OnClickListener {
 			checkInput();
 			return;
 		}
+		if (vShowFlag == arg0 || vShowImg == arg0) {
+			switchFlag();
+			return;
+		}
+		if (vRecordBtn == arg0) {
+			Intent intent = new Intent(context, RecordsActivity.class);
+			startActivity(intent);
+			return;
+		}
 
+	}
+
+	private boolean showFlag = false;
+
+	private void switchFlag() {
+		if (showFlag) {
+			vUserInforLay.setVisibility(View.GONE);
+			vOtherInforLay.setVisibility(View.GONE);
+			vShowImg.setImageResource(R.drawable.iconfont_unselected);
+		} else {
+			vUserInforLay.setVisibility(View.VISIBLE);
+			vOtherInforLay.setVisibility(View.VISIBLE);
+			vShowImg.setImageResource(R.drawable.iconfont_pwdselected);
+		}
+		showFlag = !showFlag;
 	}
 
 	private void checkInput() {
@@ -251,26 +352,7 @@ public class DonateFrame extends Fragment implements OnClickListener {
 					@Override
 					public void callback(TransResp tr) {
 						if (tr.getRetcode() == HttpStatus.SC_OK) {
-							if (parser == null) {
-								parser = new HTMLParser(tr.getRetjson());
-							} else {
-								parser.setHTMLStr(tr.getRetjson());
-							}
-							donateBean = parser.getInitDonateBean();
-							if (donateBean != null) {
-								List<String> temp = donateBean.getItemList();
-								if (temp != null && temp.size() > 0) {
-									itemListStr = new String[temp.size()];
-									for (int i = 0; i < temp.size(); i++) {
-										itemListStr[i] = temp.get(i);
-									}
-									item = itemListStr[0];
-									vItemTxt.setText(item);
-									if (showFlag) {
-										showItemDialog();
-									}
-								}
-							}
+							tranceData(showFlag, tr.getRetjson());
 						} else {
 							if (showFlag) {
 								showSimpleMessageDialog("加载失败了");
@@ -278,6 +360,29 @@ public class DonateFrame extends Fragment implements OnClickListener {
 						}
 					}
 				});
+	}
+
+	private void tranceData(boolean showFlag, String html) {
+		if (parser == null) {
+			parser = new HTMLParser(html);
+		} else {
+			parser.setHTMLStr(html);
+		}
+		donateBean = parser.getInitDonateBean();
+		if (donateBean != null) {
+			List<String> temp = donateBean.getItemList();
+			if (temp != null && temp.size() > 0) {
+				itemListStr = new String[temp.size()];
+				for (int i = 0; i < temp.size(); i++) {
+					itemListStr[i] = temp.get(i);
+				}
+				item = itemListStr[0];
+				vItemTxt.setText(item);
+				if (showFlag) {
+					showItemDialog();
+				}
+			}
+		}
 	}
 
 	private void showItemDialog() {
@@ -302,33 +407,61 @@ public class DonateFrame extends Fragment implements OnClickListener {
 	private void showAnonymousDialog() {
 		if (anonymousDialog == null) {
 			anonymousDialog = new AlertDialog.Builder(context)
-					.setTitle("是否匿名？")
-					.setItems(alumniStr, new DialogInterface.OnClickListener() {
+					.setTitle(null)
+					.setMessage("是否匿名捐赠？")
+					.setNegativeButton("否",
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							is_anonymous = alumniStr[arg1];
-							vAnonymousTxt.setText(is_anonymous);
-							arg0.dismiss();
+								@Override
+								public void onClick(DialogInterface arg0,
+										int arg1) {
+									vAnonymousTxt.setText("否");
+									is_anonymous = "否";
+									arg0.dismiss();
+								}
+							})
+					.setPositiveButton("是",
+							new DialogInterface.OnClickListener() {
 
-						}
-					}).setNegativeButton("取消", null);
+								@Override
+								public void onClick(DialogInterface arg0,
+										int arg1) {
+									vAnonymousTxt.setText("是");
+									is_anonymous = "是";
+									arg0.dismiss();
+								}
+							});
 		}
 		anonymousDialog.show();
 	}
 
 	private void showAlumniDialog() {
 		if (alumniDialog == null) {
-			alumniDialog = new AlertDialog.Builder(context).setTitle("是否校友？")
-					.setItems(alumniStr, new DialogInterface.OnClickListener() {
+			alumniDialog = new AlertDialog.Builder(context)
+					.setTitle(null)
+					.setMessage("是否校友？")
+					.setNegativeButton("否",
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							is_alumni = alumniStr[arg1];
-							vAlumniTxt.setText(is_alumni);
-							arg0.dismiss();
-						}
-					}).setNegativeButton("取消", null);
+								@Override
+								public void onClick(DialogInterface arg0,
+										int arg1) {
+									vAlumniTxt.setText("否");
+									is_alumni = "否";
+									arg0.dismiss();
+								}
+							})
+					.setPositiveButton("是",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface arg0,
+										int arg1) {
+									vAlumniTxt.setText("是");
+									is_alumni = "是";
+									arg0.dismiss();
+								}
+							});
 		}
 		alumniDialog.show();
 	}
@@ -361,4 +494,9 @@ public class DonateFrame extends Fragment implements OnClickListener {
 		simpleMsgDialog.show();
 	}
 
+	@Override
+	public void onResume() {
+		initViewData();
+		super.onResume();
+	}
 }

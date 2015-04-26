@@ -10,7 +10,7 @@ public class CommonUtil {
 	private static Calendar calendar = Calendar.getInstance();
 
 	public static boolean isEmpty(String str) {
-		return str == null || str.length() == 0;
+		return str == null || str.trim().length() == 0;
 	}
 
 	public static String getNowYear() {
@@ -28,5 +28,17 @@ public class CommonUtil {
 			}
 		}
 		return false;
+	}
+
+	private static java.text.DecimalFormat decimalFormat = new java.text.DecimalFormat(
+			"0.00");
+
+	public static String decialStrFormat(String doubleStr) {
+		try {
+			double temp = Double.valueOf(doubleStr);
+			return decimalFormat.format(temp);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

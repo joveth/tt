@@ -54,6 +54,16 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/record_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/record_btn_selector"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <View
@@ -130,6 +140,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/user_infor_lay"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -415,6 +426,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/other_infor_lay"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -534,7 +546,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/shape_bg_nocorner"
                 android:gravity="center_vertical"
                 android:orientation="vertical" >
@@ -543,7 +555,7 @@
                     android:id="@+id/next_step"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/comm_shape_center_selected"
+                    android:background="@drawable/comm_blue_shape_center_selected"
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:minHeight="40.0dip"
@@ -556,9 +568,38 @@
                         android:alpha="0.7"
                         android:gravity="center"
                         android:text="下一步"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/show_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:minHeight="40.0dip"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/show_flag_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:src="@drawable/iconfont_unselected" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:alpha="0.7"
+                    android:gravity="center"
+                    android:text="显示更多信息"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:background="#DCDCDC"
+    android:clickable="false"
+    android:focusable="false"
+    android:gravity="center"
+    android:paddingBottom="0.1dp">
+
+    <LinearLayout
+        android:id="@+id/item_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@drawable/tab_home_linearlay_selector"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="20dip">
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="中国工商银行储蓄卡(尾号0967)"
+            android:textColor="@android:color/black"
+            android:textIsSelectable="false"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
