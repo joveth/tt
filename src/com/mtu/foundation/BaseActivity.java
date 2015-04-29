@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mtu.foundation.db.DBHelper;
+import com.mtu.foundation.net.httpjersey.NetworkHandler;
 import com.mtu.foundation.util.ExitAppUtil;
 import com.mtu.foundation.view.CustomProgressDialog;
 
@@ -20,7 +22,9 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	protected TextView title, rightBtn;
 	protected View leftBtn;
 	protected CustomProgressDialog progressDialog;
-
+	protected NetworkHandler networkHandler;
+	protected DBHelper dbHelper;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

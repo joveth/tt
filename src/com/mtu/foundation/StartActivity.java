@@ -2,6 +2,7 @@ package com.mtu.foundation;
 
 import org.apache.http.HttpStatus;
 
+import com.mtu.foundation.db.DBHelper;
 import com.mtu.foundation.net.ThreadPoolUtils;
 import com.mtu.foundation.net.httpjersey.Callback;
 import com.mtu.foundation.net.httpjersey.NetworkHandler;
@@ -28,6 +29,7 @@ public class StartActivity extends BaseActivity {
 			getNewsData();
 			getThanksData();
 		}
+		DBHelper db = DBHelper.getInstance(this);
 		setContentView(R.layout.activity_start);
 		mMainHandler.sendEmptyMessageDelayed(0, 1500);
 	}
@@ -86,4 +88,5 @@ public class StartActivity extends BaseActivity {
 					}
 				});
 	}
+
 }

@@ -4,10 +4,13 @@
     <color name="normal_gray">#bfbfbf</color>
     <color name="sea_blue">#02498b</color>
     <color name="main_bg">#FFF7F7F7</color>
-    <color name="linear_pressed">#ffebebeb</color>
+    <color name="linear_pressed">#FFE4E4E4</color>
     <color name="light_gray">#ffa2a2a2</color>
     <color name="main_theme">#02498b</color>
     <color name="light_gray_white">#EEEEEE</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="line_color">#ffebebeb</color>
+    <color name="light_blue_1">#73cff1</color>
+    <color name="light_blue_2">#ff6eb9db</color>
+
 </resources>

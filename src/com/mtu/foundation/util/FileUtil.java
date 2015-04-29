@@ -101,4 +101,23 @@ public class FileUtil {
 		}
 		return true;
 	}
+
+	public static File getImgRoot() {
+		if (android.os.Environment.MEDIA_MOUNTED.equals(android.os.Environment
+				.getExternalStorageState())) {
+			File rootFile = new File(Environment.getExternalStorageDirectory()
+					+ IMG_ROOT_DIR);
+			return rootFile;
+		}
+		return null;
+	}
+	public static File getCacheRoot() {
+		if (android.os.Environment.MEDIA_MOUNTED.equals(android.os.Environment
+				.getExternalStorageState())) {
+			File rootFile = new File(Environment.getExternalStorageDirectory()
+					+ CACHE_FILE);
+			return rootFile;
+		}
+		return null;
+	}
 }

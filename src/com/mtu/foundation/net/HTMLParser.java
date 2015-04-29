@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 
 import com.mtu.foundation.bean.DonateBean;
 import com.mtu.foundation.bean.NewsBean;
+import com.mtu.foundation.bean.RechargeType;
 import com.mtu.foundation.bean.ThankBean;
 import com.mtu.foundation.util.CommonUtil;
 import com.mtu.foundation.util.Constants;
@@ -226,16 +227,45 @@ public class HTMLParser {
 		}
 		bean = new DonateBean();
 		bean.setItemList(list);
+		/*
+		 * Element bank = form_ele.getElementById("edit-bank"); if (bank ==
+		 * null) { return bean; } Elements banks = bank.getElementsByTag("div");
+		 * if (banks == null || banks.size() == 0) { return bean; } Map<String,
+		 * String> map = new HashMap<String, String>(); for (int i = 0; i <
+		 * banks.size(); i++) { Element obj = banks.get(i); Elements input_ele =
+		 * obj.getElementsByTag("input"); if (input_ele == null ||
+		 * input_ele.size() == 0) { continue; } String bankKey =
+		 * input_ele.attr("value"); if (CommonUtil.isEmpty(bankKey)) { continue;
+		 * } Elements label_ele = obj.getElementsByTag("label"); if (label_ele
+		 * == null || label_ele.size() == 0) { continue; } map.put(bankKey,
+		 * label_ele.text()); } bean.setBankMap(map);
+		 */
+		return bean;
+	}
+
+	public List<RechargeType> getInitDonateBankBean() {
+
+		Document doc = Jsoup.parse(builder.toString());
+		List<RechargeType> list = new ArrayList<RechargeType>();
+		Element rootEle = doc.getElementById(Constants.THANKS_PAGE_MAIN_ID);
+		if (rootEle == null) {
+			return list;
+		}
+		Element form_ele = rootEle.getElementById("donate-form");
+		if (form_ele == null) {
+			return list;
+		}
 		Element bank = form_ele.getElementById("edit-bank");
 		if (bank == null) {
-			return bean;
+			return list;
 		}
-		Elements banks = bank.getElementsByTag("div");
+		Elements banks = bank.getElementsByClass("form-item");
 		if (banks == null || banks.size() == 0) {
-			return bean;
+			return list;
 		}
-		Map<String, String> map = new HashMap<String, String>();
+		RechargeType bean = null;
 		for (int i = 0; i < banks.size(); i++) {
+			bean = new RechargeType();
 			Element obj = banks.get(i);
 			Elements input_ele = obj.getElementsByTag("input");
 			if (input_ele == null || input_ele.size() == 0) {
@@ -249,9 +279,19 @@ public class HTMLParser {
 			if (label_ele == null || label_ele.size() == 0) {
 				continue;
 			}
-			map.put(bankKey, label_ele.text());
+			bean.setBankkey(bankKey);
+			bean.setBankname(label_ele.text());
+			list.add(bean);
 		}
-		bean.setBankMap(map);
-		return bean;
+		return list;
+	}
+
+	public String getHtmlContent() {
+		Document doc = Jsoup.parse(builder.toString());
+		Element rootEle = doc.getElementById(Constants.THANKS_PAGE_MAIN_ID);
+		if (rootEle == null) {
+			return null;
+		}
+		return rootEle.html();
 	}
 }
