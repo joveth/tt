@@ -435,11 +435,12 @@ int layout pull_down_head 0x7f030020
 int layout pulldown_footer 0x7f030021
 int layout support_simple_spinner_dropdown_item 0x7f030022
 int layout tab_donate 0x7f030023
-int layout tab_more 0x7f030024
-int layout tab_news 0x7f030025
-int layout tab_thanks 0x7f030026
-int layout thanks_item 0x7f030027
-int layout top_bar 0x7f030028
+int layout tab_home 0x7f030024
+int layout tab_more 0x7f030025
+int layout tab_news 0x7f030026
+int layout tab_thanks 0x7f030027
+int layout thanks_item 0x7f030028
+int layout top_bar 0x7f030029
 int menu main 0x7f0c0000
 int string abc_action_bar_home_description 0x7f0a0001
 int string abc_action_bar_up_description 0x7f0a0002

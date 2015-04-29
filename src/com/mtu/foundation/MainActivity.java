@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.mtu.foundation.adapter.FramePagerAdaper;
 import com.mtu.foundation.frame.DonateFrame;
+import com.mtu.foundation.frame.HomeFrame;
 import com.mtu.foundation.frame.MoreFrame;
 import com.mtu.foundation.frame.NewsFrame;
 import com.mtu.foundation.frame.ThanksFrame;
@@ -64,8 +65,8 @@ public class MainActivity extends FragmentActivity {
 		vOthers.setOnClickListener(thanksMenuOnClickListener);
 		vMore.setOnClickListener(moreMenuOnClickListener);
 		titles = new ArrayList<String>();
+		titles.add("基金会");
 		titles.add("新闻公告");
-		titles.add("我要捐赠");
 		titles.add("捐赠名单");
 		titles.add("更多");
 		newsImg = (ImageView) findViewById(R.id.news_img);
@@ -93,12 +94,13 @@ public class MainActivity extends FragmentActivity {
 
 	private void initOthers() {
 		pagerFragments = new ArrayList<Fragment>();
+		HomeFrame homeFrame = new HomeFrame();
 		NewsFrame newsFrame = new NewsFrame();
 		DonateFrame donateFrame = new DonateFrame();
 		ThanksFrame paymentFrame = new ThanksFrame();
 		MoreFrame moreFrame = new MoreFrame();
+		pagerFragments.add(homeFrame);
 		pagerFragments.add(newsFrame);
-		pagerFragments.add(donateFrame);
 		pagerFragments.add(paymentFrame);
 		pagerFragments.add(moreFrame);
 		FramePagerAdaper adapter = new FramePagerAdaper(

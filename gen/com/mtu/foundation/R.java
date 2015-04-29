@@ -1306,11 +1306,12 @@ containing a value of this type.
         public static final int pulldown_footer=0x7f030021;
         public static final int support_simple_spinner_dropdown_item=0x7f030022;
         public static final int tab_donate=0x7f030023;
-        public static final int tab_more=0x7f030024;
-        public static final int tab_news=0x7f030025;
-        public static final int tab_thanks=0x7f030026;
-        public static final int thanks_item=0x7f030027;
-        public static final int top_bar=0x7f030028;
+        public static final int tab_home=0x7f030024;
+        public static final int tab_more=0x7f030025;
+        public static final int tab_news=0x7f030026;
+        public static final int tab_thanks=0x7f030027;
+        public static final int thanks_item=0x7f030028;
+        public static final int top_bar=0x7f030029;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
