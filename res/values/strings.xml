@@ -4,6 +4,7 @@
     <string name="app_name">MTUFoundation</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="str_home">首页</string>
     <string name="str_news">新闻</string>
     <string name="str_donate">捐赠</string>
     <string name="str_others">鸣谢</string>

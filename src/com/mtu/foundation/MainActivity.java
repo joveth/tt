@@ -28,7 +28,7 @@ import com.mtu.foundation.view.MainViewPager;
 public class MainActivity extends FragmentActivity {
 	private MainViewPager mainViewPager;
 	private List<Fragment> pagerFragments;
-	private View vNews, vDonate, vOthers, vMore;
+	private View vNews, vDonate, vOthers, vMore,vTopbar;
 	protected TextView title;
 	private List<ImageView> iconImgs;
 	private List<TextView> iconTxts;
@@ -36,7 +36,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView newsTxt, donateTxt, othersTxt, moreTxt;
 	private ImageView newsImg, donateImg, othersImg, moreImg;
 	private int currentItem = 1;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +54,8 @@ public class MainActivity extends FragmentActivity {
 		vDonate = findViewById(R.id.donate_lay);
 		vOthers = findViewById(R.id.others_lay);
 		vMore = findViewById(R.id.more_lay);
+		vTopbar = findViewById(R.id.top_bar);
+		vTopbar.setVisibility(View.GONE);
 		MenuOnClickListener homeMenuOnClickListener = new MenuOnClickListener(0);
 		MenuOnClickListener donateMenuOnClickListener = new MenuOnClickListener(
 				1);
@@ -115,6 +117,11 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void switchItem(int item) {
+		if(item==0){
+			vTopbar.setVisibility(View.GONE);
+		}else{
+			vTopbar.setVisibility(View.VISIBLE);
+		}
 		title.setText(titles.get(item));
 		for (int i = 0; i < iconImgs.size(); i++) {
 			if (i == item) {

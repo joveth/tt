@@ -15,7 +15,7 @@ public class HomeFrame extends Fragment implements OnClickListener {
 
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.tab_home, container, false);
+		view = inflater.inflate(R.layout.tab_home_v3, container, false);
 		return view;
 	}
 

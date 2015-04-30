@@ -1,0 +1,346 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:focusable="false"
+    android:orientation="vertical"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/img_top"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/sea_blue"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/sea_blue"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/logov2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:focusable="false"
+            android:orientation="vertical"
+            android:weightSum="4" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="#00bb9c"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="2" >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:focusable="false"
+                        android:src="@drawable/news_logo" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:focusable="false"
+                        android:text="新闻公告"
+                        android:textColor="@android:color/white"
+                        android:textIsSelectable="false"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="#ea9518"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp" >
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:focusable="false"
+                        android:src="@drawable/about_logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="关于基金会"
+                        android:textColor="@android:color/white"
+                        android:textIsSelectable="false"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:weightSum="4" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:weightSum="2" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#00bb9c"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/recent_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="最新捐赠"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#0061b0"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/record_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="我的记录"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/recharge_lineay"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="2"
+                        android:background="#d81e06"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp" >
+
+                        <ImageView
+                            android:id="@+id/recharge_logo"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            android:focusable="false"
+                            android:src="@drawable/donate_logo_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:focusable="false"
+                            android:text="我要捐赠"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                 <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:weightSum="2" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#ea9518"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/howto" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="捐赠流程"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#9d55b8"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/contact_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="联系我们"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#0061b0"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/message_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="我要留言"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="#9d55b8"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:weightSum="3" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/gengduo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="更多功能"
+                            android:textColor="@android:color/white"
+                            android:textIsSelectable="false"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+            </LinearLayout>
+            
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
