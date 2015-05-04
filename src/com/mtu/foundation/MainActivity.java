@@ -22,13 +22,14 @@ import com.mtu.foundation.frame.HomeFrame;
 import com.mtu.foundation.frame.MoreFrame;
 import com.mtu.foundation.frame.NewsFrame;
 import com.mtu.foundation.frame.ThanksFrame;
+import com.mtu.foundation.net.UpdateManagerService;
 import com.mtu.foundation.util.ExitAppUtil;
 import com.mtu.foundation.view.MainViewPager;
 
 public class MainActivity extends FragmentActivity {
 	private MainViewPager mainViewPager;
 	private List<Fragment> pagerFragments;
-	private View vNews, vDonate, vOthers, vMore,vTopbar;
+	private View vNews, vDonate, vOthers, vMore, vTopbar;
 	protected TextView title;
 	private List<ImageView> iconImgs;
 	private List<TextView> iconTxts;
@@ -36,12 +37,15 @@ public class MainActivity extends FragmentActivity {
 	private TextView newsTxt, donateTxt, othersTxt, moreTxt;
 	private ImageView newsImg, donateImg, othersImg, moreImg;
 	private int currentItem = 1;
-	
+	private UpdateManagerService updateManagerService;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ExitAppUtil.add(this);
 		setContentView(R.layout.activity_main);
+		updateManagerService = new UpdateManagerService(this);
+		updateManagerService.checkVersion();
 		initView();
 	}
 
@@ -117,9 +121,9 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void switchItem(int item) {
-		if(item==0){
+		if (item == 0) {
 			vTopbar.setVisibility(View.GONE);
-		}else{
+		} else {
 			vTopbar.setVisibility(View.VISIBLE);
 		}
 		title.setText(titles.get(item));

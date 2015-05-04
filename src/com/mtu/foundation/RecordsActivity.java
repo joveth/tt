@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mtu.foundation.adapter.RecordItemAdapter;
 import com.mtu.foundation.db.DBHelper;
@@ -38,7 +37,7 @@ public class RecordsActivity extends BaseActivity {
 		leftBtn.setOnClickListener(this);
 		leftBtn.setVisibility(View.VISIBLE);
 		title = (TextView) findViewById(R.id.top_title);
-		title.setText("我的提交记录");
+		title.setText("我的捐赠记录");
 		rightBtn = (TextView) findViewById(R.id.right_btn);
 		rightBtn.setText("清空");
 		rightBtn.setOnClickListener(this);
@@ -47,9 +46,33 @@ public class RecordsActivity extends BaseActivity {
 		adapter = new RecordItemAdapter(this, list);
 		listView.setAdapter(adapter);
 		if (list == null || list.size() == 0) {
-			showMsgDialogWithCallback("您还没有捐赠记录");
+			showMsgDialogWithCallback("亲，您还没有捐赠记录");
 			return;
 		}
+	}
+
+	protected void showMsgDialogWithCallback(String msg) {
+		new AlertDialog.Builder(this)
+				.setTitle(null)
+				.setPositiveButton("现在捐赠",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialogInterface, int i) {
+								dialogInterface.dismiss();
+								switchTo(DonateActivity.class);
+								finish();
+							}
+						})
+				.setNegativeButton("稍后再说",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								arg0.dismiss();
+								finish();
+							}
+						}).setCancelable(false).setMessage(msg).show();
 	}
 
 	@Override

@@ -13,7 +13,8 @@ public class Constants {
 	public static final String URI_ABOUT_55 = "http://edf.shmtu.edu.cn/articles/55.htm";
 	public static final String URI_ABOUT_53 = "http://edf.shmtu.edu.cn/articles/53.htm";
 	public static final String URI_MESSAGE = "http://edf.shmtu.edu.cn/node/add/liu-yan";
-
+	public static final String URI_UPDATE = "http://jovmusic.qiniudn.com/update.xml";
+	
 	public static final String THANKS_PAGE_MAIN_ID = "block-system-main";
 	public static final String THANKS_PAGE_CONTENT_CLASS = "recent_thanks ";
 	public static final String TAG_TABLE = "table";

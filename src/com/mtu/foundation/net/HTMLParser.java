@@ -1,19 +1,20 @@
 package com.mtu.foundation.net;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.parser.XmlTreeBuilder;
 import org.jsoup.select.Elements;
 
 import com.mtu.foundation.bean.DonateBean;
 import com.mtu.foundation.bean.NewsBean;
 import com.mtu.foundation.bean.RechargeType;
 import com.mtu.foundation.bean.ThankBean;
+import com.mtu.foundation.bean.UpdateBean;
 import com.mtu.foundation.util.CommonUtil;
 import com.mtu.foundation.util.Constants;
 
@@ -293,5 +294,23 @@ public class HTMLParser {
 			return null;
 		}
 		return rootEle.html();
+	}
+
+	public UpdateBean getVersion() {
+		Document doc = Jsoup.parse(builder.toString(), "", new Parser(
+				new XmlTreeBuilder()));
+		try {
+			String ver = doc.getElementsByTag("version").text().trim();
+			String downUrl = doc.getElementsByTag("name").text().trim();
+			String desc = doc.getElementsByTag("describe").text().trim();
+			UpdateBean bean = new UpdateBean();
+			bean.setDownloadurl(downUrl);
+			bean.setVersion(ver);
+			bean.setRemark(desc);
+			return bean;
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 }

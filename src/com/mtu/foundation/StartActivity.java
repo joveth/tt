@@ -23,15 +23,15 @@ public class StartActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_start);
 		networkHandler = NetworkHandler.getInstance();
 		if (CommonUtil.isNetWorkConnected(this)) {
 			getDonateData();
 			getNewsData();
 			getThanksData();
 		}
-		DBHelper db = DBHelper.getInstance(this);
-		setContentView(R.layout.activity_start);
-		mMainHandler.sendEmptyMessageDelayed(0, 1500);
+		DBHelper.getInstance(this);
+		mMainHandler.sendEmptyMessageDelayed(0, 1000);
 	}
 
 	private Handler mMainHandler = new Handler() {

@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import javax.ws.rs.core.MediaType;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -67,7 +65,7 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 					InputStream is = obj.getContent();
 					is = new GZIPInputStream(new BufferedInputStream(is));
 					InputStreamReader reader = new InputStreamReader(is,
-							"gbk");
+							"utf-8");
 					char[] data = new char[100];
 					int readSize;
 					StringBuffer sb = new StringBuffer();
@@ -78,7 +76,7 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 					reader.close();
 					is.close();
 				} else {
-					retjson = EntityUtils.toString(obj,"gbk");
+					retjson = EntityUtils.toString(obj,"utf-8");
 				}
 				Log.d("retpost", retjson + "");
 				resp.setRetjson(retjson);

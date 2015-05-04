@@ -324,8 +324,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = null;
 		StringBuilder sqlSelect = new StringBuilder(" select "
-				+ BeanPropEnum.KeyValue.tValue + ","
-				+ BeanPropEnum.KeyValue.tType + " from "
+				+ BeanPropEnum.KeyValue.tValue + " from "
 				+ DBHelper.TABLE_NAME_KEYVALUE + " where "
 				+ BeanPropEnum.KeyValue.tKey + "=?");
 		StringBuilder sqlInsert = new StringBuilder(" insert into  "
@@ -433,12 +432,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	public void saveVersion(String version) {
 		SQLiteDatabase db = getReadableDatabase();
-		String sql = " insert into  " + DBHelper.TABLE_NAME_KEYVALUE + "( "
+		Cursor cursor = null;
+		StringBuilder sqlSelect = new StringBuilder(" select "
+				+ BeanPropEnum.KeyValue.tValue + " from "
+				+ DBHelper.TABLE_NAME_KEYVALUE + " where "
+				+ BeanPropEnum.KeyValue.tKey + "=?");
+		StringBuilder sqlInsert = new StringBuilder(" insert into  "
+				+ DBHelper.TABLE_NAME_KEYVALUE + "( "
 				+ BeanPropEnum.KeyValue.tKey + ","
-				+ BeanPropEnum.KeyValue.tValue + ") values(?,?)";
-		db.execSQL(sql,
-				new String[] { BeanPropEnum.CommonProp.version.toString(),
-						version });
+				+ BeanPropEnum.KeyValue.tValue + ") values(?,?)");
+		String value = null;
+		if (!CommonUtil.isEmpty(version)) {
+			cursor = db
+					.rawQuery(sqlSelect.toString(),
+							new String[] { BeanPropEnum.CommonProp.version
+									.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(version)) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(), version);
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.CommonProp.version
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(sqlInsert.toString(), new String[] {
+						BeanPropEnum.CommonProp.version.toString(), version });
+			}
+		}
+
 	}
 
 	public RecordBean getLastRecord() {
