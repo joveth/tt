@@ -45,7 +45,7 @@ public class MainActivity extends FragmentActivity {
 		ExitAppUtil.add(this);
 		setContentView(R.layout.activity_main);
 		updateManagerService = new UpdateManagerService(this);
-		updateManagerService.checkVersion();
+		//updateManagerService.checkVersion();
 		initView();
 	}
 

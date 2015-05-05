@@ -5,14 +5,22 @@ import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mtu.foundation.db.DBHelper;
 import com.mtu.foundation.db.RecordBean;
 import com.mtu.foundation.net.httpjersey.NetworkHandler;
 import com.mtu.foundation.util.CommonUtil;
 import com.mtu.foundation.util.Constants;
+import com.mtu.foundation.util.alipay.AliPayUtil;
+import com.mtu.foundation.util.alipay.PayResult;
+import com.mtu.foundation.view.CustomProgressDialog;
 
 public class PayRouteActivity extends BaseActivity {
 	private NetworkHandler networkHandler;
@@ -95,7 +103,7 @@ public class PayRouteActivity extends BaseActivity {
 		}
 		startActivityForResult(intent, Constants.REQUEST_CODE_110);
 	}
-
+	private int choice=0;
 	@Override
 	public void onClick(View arg0) {
 		if (arg0 == leftBtn) {
@@ -103,7 +111,8 @@ public class PayRouteActivity extends BaseActivity {
 			return;
 		}
 		if (arg0 == vNextStep) {
-			toPay();
+			//toPay();
+			doNextStep();
 			return;
 		}
 		if (arg0 == vRechargeType) {
@@ -118,6 +127,7 @@ public class PayRouteActivity extends BaseActivity {
 			vZhiFuBaoImg.setVisibility(View.VISIBLE);
 			vZhiFuBaoWebImg.setVisibility(View.INVISIBLE);
 			vCardImg.setVisibility(View.INVISIBLE);
+			 choice = 2;
 			return;
 		}
 		if (arg0 == vZhiFuBaoWeb) {
@@ -125,6 +135,7 @@ public class PayRouteActivity extends BaseActivity {
 			vZhiFuBaoWebImg.setVisibility(View.VISIBLE);
 			vCardImg.setVisibility(View.INVISIBLE);
 			paytype = "alipay";
+			choice = 3;
 			return;
 		}
 	}
@@ -181,4 +192,72 @@ public class PayRouteActivity extends BaseActivity {
 			}
 		}
 	}
+	private String refNo = "";
+	private void doNextStep() {
+		refNo = AliPayUtil.getOutTradeNo();
+        if (choice == 1) {
+            //doCardPay();
+        } else if (choice == 2) {
+            doAliClientPay();
+        } else {
+            doAliWapPay();
+        }
+    }
+	 private void doAliClientPay() {
+	        if (progressDialog == null) {
+	            progressDialog = CustomProgressDialog.show(this, "正在加载...", false);
+	        }
+	        if (!progressDialog.isShowing()) {
+	            progressDialog.setMsg("正在加载...");
+	            progressDialog.show();
+	        }
+	        AliPayUtil aliPayUtil = new AliPayUtil(this, mHandler);
+	        //TODO refno
+	        aliPayUtil.pay("手机基金会捐赠",username+ "为"+item+"捐赠", "0.01", refNo);
+	    }
+
+	    private Handler mHandler = new Handler() {
+	        public void handleMessage(Message msg) {
+	            switch (msg.what) {
+	                case Constants.ALI_SDK_PAY_FLAG: {
+	                    if (progressDialog != null && progressDialog.isShowing()) {
+	                        progressDialog.dismiss();
+	                    }
+	                    PayResult payResult = new PayResult((String) msg.obj);
+	                    // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+	                    String resultInfo = payResult.getResult();
+	                    String resultStatus = payResult.getResultStatus();
+	                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+	                    if (TextUtils.equals(resultStatus, "9000")) {
+	                        //TODO OK
+	                    } else {
+	                        // 判断resultStatus 为非“9000”则代表可能支付失败
+	                        // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+	                        if (TextUtils.equals(resultStatus, "8000")) {
+	                            Toast.makeText(PayRouteActivity.this, "支付结果确认中",
+	                                    Toast.LENGTH_SHORT).show();
+
+	                        } else {
+	                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+	                            Toast.makeText(PayRouteActivity.this, "支付未完成",
+	                                    Toast.LENGTH_SHORT).show();
+
+	                        }
+	                    }
+	                    break;
+	                }
+	                default:
+	                    break;
+	            }
+	        }
+	    };
+	    private void doAliWapPay() {
+	        if (progressDialog != null && progressDialog.isShowing()) {
+	            progressDialog.dismiss();
+	        }
+	        Intent intent = new Intent(this, AliPayWapActivity.class);
+	        //TODO get refno
+	        intent.putExtra("refno", refNo);
+	        startActivity(intent);
+	    }
 }

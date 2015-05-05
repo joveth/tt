@@ -50,6 +50,8 @@ public class PostTask extends AsyncTask<String, String, TransResp> {
 			}
 			
 			Log.d("request.url", url);
+			post.setHeader("Content-Type", "application/x-www-form-urlencoded; text/html; charset=utf-8");	
+			//post.setHeader("User-Agent", "Mozilla/4.0");
 			HttpClient httpClient = HttpUtil.getHttpsClient(url, timeout);
 			httpResponse = httpClient.execute(post);
 

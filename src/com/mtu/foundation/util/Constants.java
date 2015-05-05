@@ -50,4 +50,6 @@ public class Constants {
 	public static final String CACHE_ABOUT_55 = "about55";
 	public static final String CACHE_ABOUT_58 = "about58";
 	public static final String ALIPAY = "alipay";
+	
+	public static final  int ALI_SDK_PAY_FLAG = 5;
 }
