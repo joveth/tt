@@ -11,8 +11,8 @@
     <color name="light_gray_white">#EEEEEE</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="line_color">#ffebebeb</color>
-    <color name="light_blue_1">#73cff1</color>
-    <color name="light_blue_2">#ff6eb9db</color>
+    <color name="light_blue_1">#10CF73</color>
+    <color name="light_blue_2">#0BAE5F</color>
     <color name="red_1">#f51f03</color>
     <color name="red_2">#d81e06</color>
     <color name="grass_1">#00bb9c</color>

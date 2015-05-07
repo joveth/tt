@@ -156,6 +156,11 @@ public class AboutWebViewActivity extends BaseActivity {
 	private HTMLParser parser;
 
 	private void getData() {
+		if(!CommonUtil.isNetWorkConnected(this)){
+			showSimpleMessageDialog("网络无法连接！");
+			return;
+		}
+		
 		if (networkHandler == null) {
 			networkHandler = NetworkHandler.getInstance();
 		}

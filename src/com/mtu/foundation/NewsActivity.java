@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewsActivity extends BaseActivity implements
 		PullDownView.OnPullDownListener {
@@ -94,6 +95,10 @@ public class NewsActivity extends BaseActivity implements
 	private int page = 0, totalPage = 0;
 
 	private void getData() {
+		if(!CommonUtil.isNetWorkConnected(this)){
+			Toast.makeText(this,"网络无法连接！", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		networkHandler.get(Constants.URI_NEWS + "?page=" + page, null, 30,
 				new Callback<TransResp>() {
 					@Override
@@ -112,6 +117,7 @@ public class NewsActivity extends BaseActivity implements
 	}
 
 	private void tranceData(String html) {
+		
 		if (parser == null) {
 			parser = new HTMLParser(html);
 		} else {

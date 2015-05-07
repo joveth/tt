@@ -46,7 +46,7 @@ public class RecordsActivity extends BaseActivity {
 		adapter = new RecordItemAdapter(this, list);
 		listView.setAdapter(adapter);
 		if (list == null || list.size() == 0) {
-			showMsgDialogWithCallback("亲，您还没有捐赠记录");
+			showMsgDialogWithCallback("亲，您还没有捐赠记录哦！");
 			return;
 		}
 	}

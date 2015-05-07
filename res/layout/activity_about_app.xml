@@ -41,6 +41,14 @@
                     android:layout_marginTop="10dp"
                     android:text="1.0"
                     android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/str_copyright"
+                    android:textColor="@color/main_bg"
+                    android:textSize="@dimen/font_size_start" />
             </LinearLayout>
 
             <LinearLayout
@@ -72,10 +80,42 @@
                         android:id="@+id/check_up_ver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
                         android:text="检查版本"
                         android:textColor="@android:color/black"
-                        android:drawablePadding="10dp"
                         android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconfont_submenu" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:id="@+id/suggest_lay"
+                    style="@style/lineayStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comm_shape_center_selected"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:minWidth="100dp"
+                        android:text="意见反馈"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"

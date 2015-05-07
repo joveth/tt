@@ -176,7 +176,7 @@ public class AliPayUtil {
             "X9eIeO4TcX+jjiaA";
     //支付宝公钥
     public static final String RSA_PUBLIC = "";
-    public static final String CHARSET = "utf-8";
+    public static final String CHARSET = "UTF-8";
     public static final String SIGN_TYPE = "0001";
     public static final String ALIPAY_WAP_URL = "http://wappaygw.alipay.com/service/rest.htm";
 
@@ -203,7 +203,7 @@ public class AliPayUtil {
         sParaTemp.put("sec_id", AliPayUtil.SIGN_TYPE);
         sParaTemp.put("format", "xml");
         sParaTemp.put("v", "2.0");
-        sParaTemp.put("req_id", UtilDate.getOrderNum());
+        sParaTemp.put("req_id","1");
         return sParaTemp;
     }
 

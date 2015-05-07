@@ -40,7 +40,7 @@ public class PayRouteActivity extends BaseActivity {
 		leftBtn.setOnClickListener(this);
 		leftBtn.setVisibility(View.VISIBLE);
 		title = (TextView) findViewById(R.id.top_title);
-		title.setText("选择支付方式");
+		title.setText("确认付款");
 		textView = (TextView) findViewById(R.id.donate_amount);
 		vZhiFuBao = findViewById(R.id.recharge_zhifubao);
 		vZhiFuBao.setOnClickListener(this);
@@ -67,7 +67,7 @@ public class PayRouteActivity extends BaseActivity {
 		}
 		item = intent.getStringExtra("item");
 		amount = intent.getStringExtra("amount");
-		textView.setText(amount);
+		textView.setText(CommonUtil.decialStrFormat(amount)+" 元");
 		comment = intent.getStringExtra("comment");
 		username = intent.getStringExtra("username");
 		gender = intent.getStringExtra("gender");
@@ -103,7 +103,7 @@ public class PayRouteActivity extends BaseActivity {
 		}
 		startActivityForResult(intent, Constants.REQUEST_CODE_110);
 	}
-	private int choice=0;
+	private int choice=2;
 	@Override
 	public void onClick(View arg0) {
 		if (arg0 == leftBtn) {
@@ -164,43 +164,46 @@ public class PayRouteActivity extends BaseActivity {
 			}
 		} else if (requestCode == Constants.REQUEST_CODE_110) {
 			if (resultCode == Constants.RESULT_OK) {
-				if (dbHelper == null) {
-					dbHelper = DBHelper.getInstance(this);
-				}
-				RecordBean bean = new RecordBean();
-				bean.setAddress(address);
-				bean.setAmount(amount);
-				bean.setBank(bank);
-				bean.setCardName(cardName);
-				bean.setCellphone(cellphone);
-				bean.setComment(comment);
-				bean.setCompany(company);
-				bean.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-						.format(Calendar.getInstance().getTime()));
-				bean.setEmail(email);
-				bean.setGender(gender);
-				bean.setIs_alumni(is_alumni);
-				bean.setIs_anonymous(is_anonymous);
-				bean.setPaytype(paytype);
-				bean.setPostcode(postcode);
-				bean.setProject(item);
-				bean.setTel(tel);
-				bean.setUsername(username);
-				dbHelper.saveRecords(bean);
-				dbHelper.saveLastRecord(bean);
-				finish();
+				saveData();
+				showMsgDialogWithCallback("感谢您对学校的捐赠！");
 			}
 		}
+	}
+	private void saveData(){
+		if (dbHelper == null) {
+			dbHelper = DBHelper.getInstance(this);
+		}
+		RecordBean bean = new RecordBean();
+		bean.setAddress(address);
+		bean.setAmount(amount);
+		bean.setBank(bank);
+		bean.setCardName(cardName);
+		bean.setCellphone(cellphone);
+		bean.setComment(comment);
+		bean.setCompany(company);
+		bean.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(Calendar.getInstance().getTime()));
+		bean.setEmail(email);
+		bean.setGender(gender);
+		bean.setIs_alumni(is_alumni);
+		bean.setIs_anonymous(is_anonymous);
+		bean.setPaytype(paytype);
+		bean.setPostcode(postcode);
+		bean.setProject(item);
+		bean.setTel(tel);
+		bean.setUsername(username);
+		dbHelper.saveRecords(bean);
+		dbHelper.saveLastRecord(bean);
 	}
 	private String refNo = "";
 	private void doNextStep() {
 		refNo = AliPayUtil.getOutTradeNo();
         if (choice == 1) {
             //doCardPay();
-        } else if (choice == 2) {
-            doAliClientPay();
-        } else {
+        } else if (choice == 3) {
             doAliWapPay();
+        } else {
+        	doAliClientPay();
         }
     }
 	 private void doAliClientPay() {
@@ -213,7 +216,8 @@ public class PayRouteActivity extends BaseActivity {
 	        }
 	        AliPayUtil aliPayUtil = new AliPayUtil(this, mHandler);
 	        //TODO refno
-	        aliPayUtil.pay("手机基金会捐赠",username+ "为"+item+"捐赠", "0.01", refNo);
+	        //aliPayUtil.pay("手机基金会捐赠",username+ "为"+item+"捐赠", "0.01", refNo);
+	        aliPayUtil.pay("测试",username+ "测试内容", "0.01", refNo);
 	    }
 
 	    private Handler mHandler = new Handler() {
@@ -230,6 +234,8 @@ public class PayRouteActivity extends BaseActivity {
 	                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 	                    if (TextUtils.equals(resultStatus, "9000")) {
 	                        //TODO OK
+	                    	saveData();
+	                    	showMsgDialogWithCallback("感谢您对学校的捐赠！");
 	                    } else {
 	                        // 判断resultStatus 为非“9000”则代表可能支付失败
 	                        // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）

@@ -16,7 +16,6 @@
             android:id="@+id/img_top"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:background="@color/sea_blue"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -24,10 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/sea_blue"
+                android:background="@drawable/top_bg"
                 android:padding="10dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/logov2" />
+                android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
