@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="#043C70" >
+
+    <TextView
+        android:id="@+id/item_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="13dp"
+        android:background="@drawable/shape_corner"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp"
+        android:text="01"
+        android:textSize="25sp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginTop="64dp"
+        android:layout_toRightOf="@+id/item_day"
+        android:src="@drawable/moment_bigdot" />
+
+    <View
+        android:id="@+id/item_line"
+        android:layout_width="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_toRightOf="@+id/item_day"
+        android:background="#ffe6e6e6"
+        android:minHeight="100dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="61dp"
+        android:layout_toRightOf="@+id/item_line"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="现在"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="50dp"
+        android:src="@drawable/iconfont_zuji" />
+
+</RelativeLayout>

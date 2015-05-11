@@ -7,19 +7,13 @@
         layout="@layout/top_bar" />
 
     <GridView
-        android:id="@+id/tab_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/gridlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top_bar"
-        android:layout_margin="0dp"
         android:background="@android:color/transparent"
-        android:fadingEdge="none"
-        android:horizontalSpacing="0dp"
-        android:listSelector="@null"
         android:numColumns="3"
-        android:padding="0dp"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp" />
+        android:splitMotionEvents="false"
+        android:stretchMode="columnWidth" />
 
 </RelativeLayout>

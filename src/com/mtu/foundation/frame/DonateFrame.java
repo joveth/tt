@@ -186,7 +186,7 @@ public class DonateFrame extends Fragment implements OnClickListener {
 	}
 
 	private void initViewData() {
-		RecordBean bean = dbHelper.getLastRecord();
+		RecordBean bean = dbHelper.getLastUser();
 		Log.d("bean", bean == null ? "" : bean.toString());
 		if (bean != null && !CommonUtil.isEmpty(bean.getUsername())
 				&& !CommonUtil.isEmpty(bean.getEmail())

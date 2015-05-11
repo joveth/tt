@@ -19,13 +19,31 @@
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/top_bg"
-                android:padding="10dp"
-                android:scaleType="fitXY" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/top_bg"
+                    android:scaleType="fitXY" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#86222222"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="25dp"
+                        android:src="@drawable/logov2" />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -34,6 +52,7 @@
             android:layout_margin="2dp"
             android:focusable="false"
             android:orientation="horizontal"
+            android:splitMotionEvents="false"
             android:weightSum="2" >
 
             <LinearLayout
@@ -41,6 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:splitMotionEvents="false"
                 android:weightSum="5" >
 
                 <LinearLayout
@@ -87,12 +107,11 @@
                     android:padding="10dp" >
 
                     <ImageView
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:focusable="false"
-                        android:src="@drawable/donate_logo_1" />
+                        android:src="@drawable/iconfont_donate" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,7 +160,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:focusable="false"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:splitMotionEvents="false" >
 
                     <LinearLayout
                         android:id="@+id/message_lay"
@@ -166,7 +186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:text="我要留言"
+                            android:text="捐赠说明"
                             android:textColor="@android:color/white"
                             android:textIsSelectable="false"
                             android:textSize="15sp" />
@@ -179,6 +199,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:splitMotionEvents="false"
                 android:weightSum="5" >
 
                 <LinearLayout
@@ -218,6 +239,7 @@
                     android:layout_weight="1"
                     android:focusable="false"
                     android:orientation="horizontal"
+                    android:splitMotionEvents="false"
                     android:weightSum="2" >
 
                     <LinearLayout
@@ -342,7 +364,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:splitMotionEvents="false" >
 
                     <LinearLayout
                         android:id="@+id/more_lay"

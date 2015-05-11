@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mtu.foundation.bean.HistoryItemBean;
 import com.mtu.foundation.util.CommonUtil;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -18,6 +19,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TABLE_NAME_RECORDS = "tb_records";
 	public static final String TABLE_NAME_KEYVALUE = "tb_mapkey";
 	private static final String DB_NAME = "com.mtu.foundation";
+	private static final String TABLE_NAME_HISTORY = "tb_historys";
+
 	/**
 	 * version
 	 */
@@ -75,6 +78,20 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ BeanPropEnum.RecordProp.status
 			+ " varchar(50),"
 			+ BeanPropEnum.RecordProp.date + " varchar(20)  )";
+
+	private static final String CREATE_TABLE_HISTORY = "create table if not exists "
+			+ TABLE_NAME_HISTORY
+			+ "("
+			+ BeanPropEnum.Historyprop.id
+			+ " integer primary key autoincrement ,"
+			+ BeanPropEnum.Historyprop.day
+			+ " varchar(4) ,"
+			+ BeanPropEnum.Historyprop.imgId
+			+ " varchar(100) ,"
+			+ BeanPropEnum.Historyprop.date
+			+ " varchar(24) ,"
+			+ BeanPropEnum.Historyprop.content + " varchar(500) )";
+
 	private static DBHelper instance = null;
 
 	private DBHelper(Context context) {
@@ -85,6 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_KEYVALUE);
 		db.execSQL(CREATE_TABLE_RECORD);
+		db.execSQL(CREATE_TABLE_HISTORY);
 	}
 
 	@Override
@@ -311,8 +329,48 @@ public class DBHelper extends SQLiteOpenHelper {
 			bean.setCellphone(cursor.getString(cursor
 					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
 		}
-		cursor.close();
 
+		cursor = db.rawQuery(sql,
+				new String[] { BeanPropEnum.RecordProp.amount.toString() });
+
+		if (cursor != null && cursor.moveToNext()) {
+			bean.setAmount(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
+		}
+
+		cursor = db.rawQuery(sql,
+				new String[] { BeanPropEnum.RecordProp.project.toString() });
+
+		if (cursor != null && cursor.moveToNext()) {
+			bean.setProject(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
+		}
+
+		cursor = db.rawQuery(sql,
+				new String[] { BeanPropEnum.RecordProp.gender.toString() });
+
+		if (cursor != null && cursor.moveToNext()) {
+			bean.setGender(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
+		}
+
+		cursor = db.rawQuery(sql,
+				new String[] { BeanPropEnum.RecordProp.is_alumni.toString() });
+
+		if (cursor != null && cursor.moveToNext()) {
+			bean.setIs_alumni(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
+		}
+		cursor = db
+				.rawQuery(sql,
+						new String[] { BeanPropEnum.RecordProp.is_anonymous
+								.toString() });
+		if (cursor != null && cursor.moveToNext()) {
+			bean.setIs_anonymous(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString())));
+		}
+
+		cursor.close();
 		db.close();
 		return bean;
 	}
@@ -414,6 +472,143 @@ public class DBHelper extends SQLiteOpenHelper {
 								bean.getCellphone() });
 			}
 		}
+		if (!CommonUtil.isEmpty(bean.getAmount())) {
+			cursor = db.rawQuery(sqlSelect.toString(),
+					new String[] { BeanPropEnum.RecordProp.amount.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(bean.getAmount())) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(),
+							bean.getAmount());
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.RecordProp.amount
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(
+						sqlInsert.toString(),
+						new String[] {
+								BeanPropEnum.RecordProp.amount.toString(),
+								bean.getAmount() });
+			}
+		}
+
+		if (!CommonUtil.isEmpty(bean.getProject())) {
+			cursor = db
+					.rawQuery(sqlSelect.toString(),
+							new String[] { BeanPropEnum.RecordProp.project
+									.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(bean.getProject())) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(),
+							bean.getProject());
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.RecordProp.project
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(
+						sqlInsert.toString(),
+						new String[] {
+								BeanPropEnum.RecordProp.project.toString(),
+								bean.getProject() });
+			}
+		}
+		if (!CommonUtil.isEmpty(bean.getGender())) {
+			cursor = db.rawQuery(sqlSelect.toString(),
+					new String[] { BeanPropEnum.RecordProp.gender.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(bean.getGender())) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(),
+							bean.getGender());
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.RecordProp.gender
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(
+						sqlInsert.toString(),
+						new String[] {
+								BeanPropEnum.RecordProp.gender.toString(),
+								bean.getGender() });
+			}
+		}
+		if (!CommonUtil.isEmpty(bean.getIs_alumni())) {
+			cursor = db
+					.rawQuery(sqlSelect.toString(),
+							new String[] { BeanPropEnum.RecordProp.is_alumni
+									.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(bean.getIs_alumni())) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(),
+							bean.getIs_alumni());
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.RecordProp.is_alumni
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(
+						sqlInsert.toString(),
+						new String[] {
+								BeanPropEnum.RecordProp.is_alumni.toString(),
+								bean.getIs_alumni() });
+			}
+		}
+
+		if (!CommonUtil.isEmpty(bean.getIs_anonymous())) {
+			cursor = db.rawQuery(sqlSelect.toString(),
+					new String[] { BeanPropEnum.RecordProp.is_anonymous
+							.toString() });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(bean.getIs_anonymous())) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(),
+							bean.getIs_anonymous());
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { BeanPropEnum.RecordProp.is_anonymous
+									.toString() });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(
+						sqlInsert.toString(),
+						new String[] {
+								BeanPropEnum.RecordProp.is_anonymous.toString(),
+								bean.getIs_anonymous() });
+			}
+		}
 	}
 
 	public String getVersion() {
@@ -467,6 +662,55 @@ public class DBHelper extends SQLiteOpenHelper {
 			}
 		}
 
+	}
+
+	public void saveOrUpdateKeyMap(String key, String val) {
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = null;
+		StringBuilder sqlSelect = new StringBuilder(" select "
+				+ BeanPropEnum.KeyValue.tValue + " from "
+				+ DBHelper.TABLE_NAME_KEYVALUE + " where "
+				+ BeanPropEnum.KeyValue.tKey + "=?");
+		StringBuilder sqlInsert = new StringBuilder(" insert into  "
+				+ DBHelper.TABLE_NAME_KEYVALUE + "( "
+				+ BeanPropEnum.KeyValue.tKey + ","
+				+ BeanPropEnum.KeyValue.tValue + ") values(?,?)");
+		String value = null;
+		if (!CommonUtil.isEmpty(key)) {
+			cursor = db.rawQuery(sqlSelect.toString(), new String[] { key });
+			if (cursor != null && cursor.moveToNext()) {
+				value = cursor
+						.getString(cursor
+								.getColumnIndex(BeanPropEnum.KeyValue.tValue
+										.toString()));
+				if (value == null || !value.equals(val)) {
+					ContentValues values = new ContentValues();
+					values.put(BeanPropEnum.KeyValue.tValue.toString(), val);
+					db.update(DBHelper.TABLE_NAME_KEYVALUE, values,
+							BeanPropEnum.KeyValue.tKey + "=?",
+							new String[] { key });
+				}
+				cursor.close();
+			} else {
+				db.execSQL(sqlInsert.toString(), new String[] { key, val });
+			}
+		}
+	}
+
+	public String getValueByKey(String key) {
+		if (CommonUtil.isEmpty(key)) {
+			return null;
+		}
+		SQLiteDatabase db = getReadableDatabase();
+		String sql = " select  * from " + TABLE_NAME_KEYVALUE + " where "
+				+ BeanPropEnum.KeyValue.tKey + "=?";
+		Cursor cursor = db.rawQuery(sql, new String[] { key });
+		String val = null;
+		if (cursor != null && cursor.moveToNext()) {
+			val = cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.KeyValue.tValue.toString()));
+		}
+		return val;
 	}
 
 	public RecordBean getLastRecord() {
@@ -529,4 +773,80 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.close();
 		return bean;
 	}
+
+	public void saveHistory(HistoryItemBean bean) {
+		SQLiteDatabase db = getReadableDatabase();
+		if (bean == null) {
+			return;
+		}
+		try {
+			// check if in
+			String sql = "insert into  " + TABLE_NAME_HISTORY + "( "
+					+ BeanPropEnum.Historyprop.id + " ,"
+					+ BeanPropEnum.Historyprop.day + " ,"
+					+ BeanPropEnum.Historyprop.date + " , "
+					+ BeanPropEnum.Historyprop.imgId + " , "
+					+ BeanPropEnum.Historyprop.content
+					+ ") values(null,?,?,?,?)";
+			db.execSQL(
+					sql,
+					new String[] { bean.getDay(), bean.getDate(),
+							bean.getImgId(), bean.getContent() });
+
+		} catch (Exception e) {
+
+		} finally {
+			db.close();
+		}
+	}
+
+	public List<HistoryItemBean> getHistorys(int pageNo) {
+		SQLiteDatabase db = getReadableDatabase();
+		if (pageNo <= 1) {
+			pageNo = 1;
+		}
+		int offset = (pageNo - 1) * 10;
+
+		String sql = " select  * from " + TABLE_NAME_HISTORY
+				+ " order by id desc limit 10 offset " + offset;
+		Cursor cursor = db.rawQuery(sql, null);
+
+		HistoryItemBean bean = null;
+		List<HistoryItemBean> list = new ArrayList<HistoryItemBean>(0);
+		while (cursor != null && cursor.moveToNext()) {
+			bean = new HistoryItemBean();
+
+			bean.setDay(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.Historyprop.day.toString())));
+
+			bean.setDate(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.Historyprop.date.toString())));
+			bean.setImgId(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.Historyprop.imgId.toString())));
+			bean.setContent(cursor.getString(cursor
+					.getColumnIndex(BeanPropEnum.Historyprop.content.toString())));
+			list.add(bean);
+		}
+		db.close();
+		return list;
+	}
+
+	public int getHistorysCnt() {
+		SQLiteDatabase db = getReadableDatabase();
+		int cnt = 0;
+		String sql = " select  count(*)  from  " + TABLE_NAME_HISTORY;
+		Cursor cursor = db.rawQuery(sql, null);
+		if (cursor != null && cursor.moveToNext()) {
+			cnt = cursor.getInt(0);
+		}
+		db.close();
+		return cnt;
+	}
+
+	public void deleteAllHistorys() {
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(TABLE_NAME_HISTORY, null, null);
+		db.close();
+	}
+
 }

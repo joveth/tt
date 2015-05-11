@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
     android:clickable="false"
-    android:focusable="false" >
+    android:focusable="false"
+    android:splitMotionEvents="false" >
 
     <LinearLayout
         android:id="@+id/item_lay"

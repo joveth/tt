@@ -228,19 +228,6 @@ public class HTMLParser {
 		}
 		bean = new DonateBean();
 		bean.setItemList(list);
-		/*
-		 * Element bank = form_ele.getElementById("edit-bank"); if (bank ==
-		 * null) { return bean; } Elements banks = bank.getElementsByTag("div");
-		 * if (banks == null || banks.size() == 0) { return bean; } Map<String,
-		 * String> map = new HashMap<String, String>(); for (int i = 0; i <
-		 * banks.size(); i++) { Element obj = banks.get(i); Elements input_ele =
-		 * obj.getElementsByTag("input"); if (input_ele == null ||
-		 * input_ele.size() == 0) { continue; } String bankKey =
-		 * input_ele.attr("value"); if (CommonUtil.isEmpty(bankKey)) { continue;
-		 * } Elements label_ele = obj.getElementsByTag("label"); if (label_ele
-		 * == null || label_ele.size() == 0) { continue; } map.put(bankKey,
-		 * label_ele.text()); } bean.setBankMap(map);
-		 */
 		return bean;
 	}
 
@@ -293,7 +280,12 @@ public class HTMLParser {
 		if (rootEle == null) {
 			return null;
 		}
-		return rootEle.html();
+		Elements conEle = rootEle.getElementsByClass("content");
+		if (conEle == null || conEle.size() == 0) {
+			return null;
+		}
+		Element content = conEle.get(conEle.size() - 1);
+		return content.html();
 	}
 
 	public UpdateBean getVersion() {

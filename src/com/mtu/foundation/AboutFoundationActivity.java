@@ -75,11 +75,11 @@ public class AboutFoundationActivity extends BaseActivity {
 		}
 		if (arg0 == vAbout3) {
 			Bundle bundle = new Bundle();
-			bundle.putString("htmlfile", Constants.CACHE_ABOUT_52);
+			/*bundle.putString("htmlfile", Constants.CACHE_ABOUT_52);
 			bundle.putString("title", "基金会登记决定书");
-			bundle.putString("url", Constants.URI_ABOUT_52);
-
-			switchTo(AboutWebViewActivity.class, bundle);
+			bundle.putString("url", Constants.URI_ABOUT_52);*/
+			bundle.putInt("imgResid", R.drawable.jijin);
+			switchTo(ImageShowerActivity.class, bundle);
 			return;
 		}
 		if (arg0 == vAbout4) {

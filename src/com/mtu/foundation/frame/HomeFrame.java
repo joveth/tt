@@ -11,9 +11,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.mtu.foundation.AboutFoundationActivity;
+import com.mtu.foundation.AboutWebViewActivity;
 import com.mtu.foundation.AccountActivity;
 import com.mtu.foundation.ContactActivity;
 import com.mtu.foundation.DonateActivity;
+import com.mtu.foundation.DonateDescActivity;
 import com.mtu.foundation.MessageActivity;
 import com.mtu.foundation.MoreActivity;
 import com.mtu.foundation.NewsActivity;
@@ -21,6 +23,7 @@ import com.mtu.foundation.ProcessActivity;
 import com.mtu.foundation.R;
 import com.mtu.foundation.RecentActivity;
 import com.mtu.foundation.RecordsActivity;
+import com.mtu.foundation.util.Constants;
 
 public class HomeFrame extends Fragment implements OnClickListener {
 	private View view, vNews, vRecent, vDoDonate, vAccount, vContact, vProcess,
@@ -99,8 +102,15 @@ public class HomeFrame extends Fragment implements OnClickListener {
 			return;
 		}
 		if (arg0 == vMessage) {
-			switchTo(MessageActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("htmlfile", Constants.CACHE_DESC);
+			bundle.putString("title", "捐赠说明");
+			bundle.putString("url", Constants.URI_DESC);
+			Intent intent = new Intent(context, AboutWebViewActivity.class);
+			intent.putExtras(bundle);
+			context.startActivity(intent);
 			return;
+
 		}
 		if (arg0 == vMore) {
 			switchTo(MoreActivity.class);

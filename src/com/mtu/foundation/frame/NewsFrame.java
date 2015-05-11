@@ -62,6 +62,7 @@ public class NewsFrame extends Fragment implements
 		list = new ArrayList<NewsBean>();
 		adapter = new NewsItemAdapter(context, list);
 		listView.setAdapter(adapter);
+		listView.setMotionEventSplittingEnabled(false);
 		pullDownView.setOnPullDownListener(this);
 		pullDownView.enableAutoFetchMore(true, 3);
 		pullDownView.setShowFooter();

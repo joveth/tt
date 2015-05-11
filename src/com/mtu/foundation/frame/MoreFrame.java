@@ -38,9 +38,9 @@ public class MoreFrame extends Fragment implements OnClickListener {
 		vContact = view.findViewById(R.id.contact_lay);
 		vContact.setOnClickListener(this);
 
-		vWeibo = view.findViewById(R.id.weibo_lay);
+		/*vWeibo = view.findViewById(R.id.weibo_lay);
 		vWeibo.setOnClickListener(this);
-
+		 */
 		vProcess = view.findViewById(R.id.about_donate_lay);
 		vProcess.setOnClickListener(this);
 

@@ -36,7 +36,7 @@ public class MainActivity extends FragmentActivity {
 	private List<String> titles;
 	private TextView newsTxt, donateTxt, othersTxt, moreTxt;
 	private ImageView newsImg, donateImg, othersImg, moreImg;
-	private int currentItem = 1;
+	private int currentItem = 0;
 	private UpdateManagerService updateManagerService;
 
 	@Override
@@ -147,6 +147,7 @@ public class MainActivity extends FragmentActivity {
 
 		public void onClick(View v) {
 			mainViewPager.setCurrentItem(index, false);
+			currentItem = index;
 		}
 	}
 
@@ -168,6 +169,7 @@ public class MainActivity extends FragmentActivity {
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			if (currentItem != 0) {
 				mainViewPager.setCurrentItem(0, false);
+				currentItem = 0;
 				return true;
 			}
 			backTo();

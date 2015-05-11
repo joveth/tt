@@ -77,6 +77,7 @@ public class NewsItemAdapter extends BaseAdapter {
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context, WebViewActivity.class);
 				intent.putExtra("newsurl", bean.getUrl());
+				intent.putExtra("title", bean.getTitle());
 				context.startActivity(intent);
 			}
 		});

@@ -27,6 +27,11 @@
                 android:background="@drawable/shape_bg_nocorner"
                 android:orientation="vertical" >
 
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="@drawable/shape_line" />
+
                 <LinearLayout
                     style="@style/lineayStyle"
                     android:layout_width="fill_parent"
@@ -49,9 +54,23 @@
                         android:id="@+id/donate_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/donate_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="@drawable/shape_line" />
             </LinearLayout>
 
             <LinearLayout

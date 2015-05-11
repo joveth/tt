@@ -14,7 +14,16 @@ public class Constants {
 	public static final String URI_ABOUT_53 = "http://edf.shmtu.edu.cn/articles/53.htm";
 	public static final String URI_MESSAGE = "http://edf.shmtu.edu.cn/node/add/liu-yan";
 	public static final String URI_UPDATE = "http://jovmusic.qiniudn.com/update.xml";
-	
+	public static final String URI_DESC = "http://edf.shmtu.edu.cn/donate/brief.htm";
+	/*
+	 * public static final String URI_DESC_63 =
+	 * "http://edf.shmtu.edu.cn/articles/63.htm"; public static final String
+	 * URI_DESC_64 = "http://edf.shmtu.edu.cn/articles/64.htm"; public static
+	 * final String URI_DESC_65 = "http://edf.shmtu.edu.cn/articles/65.htm";
+	 * public static final String URI_DESC_66 =
+	 * "http://edf.shmtu.edu.cn/articles/66.htm";
+	 */
+
 	public static final String THANKS_PAGE_MAIN_ID = "block-system-main";
 	public static final String THANKS_PAGE_CONTENT_CLASS = "recent_thanks ";
 	public static final String TAG_TABLE = "table";
@@ -37,8 +46,7 @@ public class Constants {
 
 	public static final int REQUEST_CODE = 100;
 	public static final int REQUEST_CODE_110 = 110;
-	
-	
+
 	public static final String CACHE_THANKS = "thanks";
 	public static final String CACHE_NEWS = "news";
 	public static final String CACHE_DONATE = "donate";
@@ -49,7 +57,11 @@ public class Constants {
 	public static final String CACHE_ABOUT_54 = "about54";
 	public static final String CACHE_ABOUT_55 = "about55";
 	public static final String CACHE_ABOUT_58 = "about58";
+	public static final String CACHE_DESC = "donatedesc";
 	public static final String ALIPAY = "alipay";
+
+	public static final int ALI_SDK_PAY_FLAG = 5;
+	public static final String XXLIAME = "mtufoundation@163.com";
+	public static final String DWP = "mtufoundation163";
 	
-	public static final  int ALI_SDK_PAY_FLAG = 5;
 }

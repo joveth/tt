@@ -13,6 +13,11 @@ public class BeanPropEnum {
 	}
 
 	public enum CommonProp {
-		version
+		version, fastDonateFlag
 	}
+
+	public enum Historyprop {
+		id, day, imgId, date, content
+	}
+
 }

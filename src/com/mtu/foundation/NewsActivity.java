@@ -56,6 +56,7 @@ public class NewsActivity extends BaseActivity implements
 
 		pullDownView = (PullDownView) findViewById(R.id.news_listview);
 		listView = pullDownView.getListView();
+		listView.setMotionEventSplittingEnabled(false);
 		list = new ArrayList<NewsBean>();
 		adapter = new NewsItemAdapter(this, list);
 		listView.setAdapter(adapter);

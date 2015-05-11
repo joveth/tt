@@ -1,7 +1,11 @@
 package com.mtu.foundation;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.apache.http.HttpStatus;
 
+import com.mtu.foundation.bean.HistoryItemBean;
 import com.mtu.foundation.db.DBHelper;
 import com.mtu.foundation.net.ThreadPoolUtils;
 import com.mtu.foundation.net.httpjersey.Callback;
@@ -30,7 +34,22 @@ public class StartActivity extends BaseActivity {
 			getNewsData();
 			getThanksData();
 		}
-		DBHelper.getInstance(this);
+		DBHelper dbHelper = DBHelper.getInstance(this);
+		if (dbHelper.getHistorysCnt() == 0) {
+			HistoryItemBean bean = new HistoryItemBean();
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss ");
+			try {
+				String date = format.format(calendar.getTime());
+				bean.setDate(date);
+				bean.setDay(date.substring(8, 10));
+				bean.setImgId(String.valueOf(R.drawable.blue_cricle));
+				bean.setContent("第一次使用海事基金会安卓应用，开始了感恩母校，回馈母校，爱心捐赠之旅，捐赠不在于多少，不在于地位，而是一颗报答的心。");
+				dbHelper.saveHistory(bean);
+			} catch (Exception e) {
+			}
+		}
 		mMainHandler.sendEmptyMessageDelayed(0, 1000);
 	}
 

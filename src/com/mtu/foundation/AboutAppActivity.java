@@ -28,7 +28,7 @@ import com.mtu.foundation.util.FileUtil;
 import com.mtu.foundation.view.CustomProgressDialog;
 
 public class AboutAppActivity extends BaseActivity {
-	private View vClean, vCheck;
+	private View vClean, vCheck, vSuggest;
 	private TextView vVersion, vCheckVer;
 
 	@Override
@@ -48,6 +48,8 @@ public class AboutAppActivity extends BaseActivity {
 		vClean.setOnClickListener(this);
 		vCheck = findViewById(R.id.check_update);
 		vCheck.setOnClickListener(this);
+		vSuggest = findViewById(R.id.suggest_lay);
+		vSuggest.setOnClickListener(this);
 
 		vVersion = (TextView) findViewById(R.id.version);
 		getVersion();
@@ -107,6 +109,10 @@ public class AboutAppActivity extends BaseActivity {
 		}
 		if (arg0 == vCheck) {
 			checkVersion();
+			return;
+		}
+		if (arg0 == vSuggest) {
+			switchTo(SuggestActivity.class);
 			return;
 		}
 	}

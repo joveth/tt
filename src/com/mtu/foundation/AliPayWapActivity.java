@@ -52,7 +52,7 @@ public class AliPayWapActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_webview);
+		setContentView(R.layout.activity_about_foundation);
 		initData();
 		initView();
 	}

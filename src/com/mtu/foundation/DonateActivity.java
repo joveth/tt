@@ -1,5 +1,7 @@
 package com.mtu.foundation;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
@@ -19,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mtu.foundation.bean.DonateBean;
+import com.mtu.foundation.bean.HistoryItemBean;
+import com.mtu.foundation.db.BeanPropEnum;
 import com.mtu.foundation.db.DBHelper;
 import com.mtu.foundation.db.RecordBean;
 import com.mtu.foundation.net.HTMLParser;
@@ -49,12 +53,37 @@ public class DonateActivity extends BaseActivity {
 	private Handler cacheHandler;
 	private DBHelper dbHelper;
 	private ImageView vShowImg;
+	private RecordBean bean;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_donate);
 		dbHelper = DBHelper.getInstance(this);
+		String fastFlag = dbHelper
+				.getValueByKey(BeanPropEnum.CommonProp.fastDonateFlag
+						.toString());
+		bean = dbHelper.getLastUser();
+		if (!CommonUtil.isEmpty(fastFlag) && "1".equals(fastFlag)) {
+			if (bean != null && !CommonUtil.isEmpty(bean.getAmount())
+					&& !CommonUtil.isEmpty(bean.getProject())
+					&& !CommonUtil.isEmpty(bean.getUsername())
+					&& !CommonUtil.isEmpty(bean.getEmail())
+					&& !CommonUtil.isEmpty(bean.getCellphone())) {
+				item = bean.getProject();
+				amount = bean.getAmount();
+				username = bean.getUsername();
+				gender = bean.getGender() == null ? gendarStr[0] : bean
+						.getGender();
+				is_alumni = bean.getIs_alumni() == null ? alumniStr[0] : bean
+						.getIs_alumni();
+				email = bean.getEmail();
+				cellphone = bean.getCellphone();
+				is_anonymous = bean.getIs_anonymous() == null ? alumniStr[1]
+						: bean.getIs_anonymous();
+				toPay();
+			}
+		}
+		setContentView(R.layout.activity_donate);
 		initData();
 		initView();
 		initOther();
@@ -68,6 +97,7 @@ public class DonateActivity extends BaseActivity {
 		is_alumni = alumniStr[0];
 		is_anonymous = alumniStr[1];
 		networkHandler = NetworkHandler.getInstance();
+
 	}
 
 	private void initView() {
@@ -182,19 +212,18 @@ public class DonateActivity extends BaseActivity {
 	}
 
 	private void initViewData() {
-		RecordBean bean = dbHelper.getLastRecord();
+
 		Log.d("bean", bean == null ? "" : bean.toString());
 		if (bean != null && !CommonUtil.isEmpty(bean.getUsername())
 				&& !CommonUtil.isEmpty(bean.getEmail())
-				&& !CommonUtil.isEmpty(bean.getCellphone())
-				&& !CommonUtil.isEmpty(bean.getTel())) {
+				&& !CommonUtil.isEmpty(bean.getCellphone())) {
 			vUserInforLay.setVisibility(View.GONE);
 			vOtherInforLay.setVisibility(View.GONE);
 			vShowFlag.setVisibility(View.VISIBLE);
 			vShowImg.setImageResource(R.drawable.iconfont_unselected);
 			vUsernameTxt.setText(bean.getUsername());
 			vEmailTxt.setText(bean.getEmail());
-			vTelTxt.setText(bean.getTel());
+
 			vCellphoneTxt.setText(bean.getCellphone());
 			vAddressTxt.setText(bean.getAddress());
 			vPostcodeTxt.setText(bean.getPostcode());
@@ -306,15 +335,9 @@ public class DonateActivity extends BaseActivity {
 			vEmailTxt.requestFocus();
 			return;
 		}
-		tel = vTelTxt.getText().toString();
-		if (CommonUtil.isEmpty(tel)) {
-			vTelTxt.setError("请输入联系电话");
-			vTelTxt.requestFocus();
-			return;
-		}
 
 		cellphone = vCellphoneTxt.getText().toString();
-		if (CommonUtil.isEmpty(tel)) {
+		if (CommonUtil.isEmpty(cellphone)) {
 			vCellphoneTxt.setError("请输入移动电话");
 			vCellphoneTxt.requestFocus();
 			return;
@@ -326,6 +349,34 @@ public class DonateActivity extends BaseActivity {
 		address = vAddressTxt.getText().toString();
 		postcode = vPostcodeTxt.getText().toString();
 		company = vCompanyTxt.getText().toString();
+		toPay();
+
+	}
+
+	private void saveHistory() {
+		HistoryItemBean bean = new HistoryItemBean();
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+		try {
+			String date = format.format(calendar.getTime());
+			bean.setDate(date);
+			bean.setDay(date.substring(8, 10));
+			bean.setImgId(String.valueOf(R.drawable.red_circle));
+			double price = Double.parseDouble(amount);
+			String temp = "捐赠了一笔，积小流，成江河，善于回报。";
+			if (price > 10000 && price < 50000) {
+				temp = "很大方的捐赠了一笔，积小流，成江河，敢于回报，母校因你而自豪。";
+			} else if (price >= 50000) {
+				temp = "非常大方的捐赠了一笔，此时此刻，母校的各位学子，除了感谢，我想再不会有其他。";
+			}
+
+			bean.setContent(bean.getDay() + "日，为" + item + temp);
+			dbHelper.saveHistory(bean);
+		} catch (Exception e) {
+		}
+	}
+
+	private void toPay() {
 		Intent intent = new Intent(this, PayRouteActivity.class);
 		intent.putExtra("item", item);
 		intent.putExtra("amount", amount);
@@ -334,14 +385,13 @@ public class DonateActivity extends BaseActivity {
 		intent.putExtra("gender", gender);
 		intent.putExtra("is_alumni", is_alumni);
 		intent.putExtra("email", email);
-		intent.putExtra("tel", tel);
+		intent.putExtra("tel", cellphone);
 		intent.putExtra("cellphone", cellphone);
 		intent.putExtra("address", address);
 		intent.putExtra("postcode", postcode);
 		intent.putExtra("company", company);
 		intent.putExtra("is_anonymous", is_anonymous);
 		this.startActivity(intent);
-
 	}
 
 	private HTMLParser parser;
@@ -371,6 +421,7 @@ public class DonateActivity extends BaseActivity {
 		donateBean = parser.getInitDonateBean();
 		if (donateBean != null) {
 			List<String> temp = donateBean.getItemList();
+
 			if (temp != null && temp.size() > 0) {
 				itemListStr = new String[temp.size()];
 				for (int i = 0; i < temp.size(); i++) {
@@ -380,6 +431,14 @@ public class DonateActivity extends BaseActivity {
 				vItemTxt.setText(item);
 				if (showFlag) {
 					showItemDialog();
+				}
+				if (bean != null && !temp.contains(bean.getProject())) {
+					item = itemListStr[0];
+					if (dbHelper != null) {
+						dbHelper.saveOrUpdateKeyMap(
+								BeanPropEnum.RecordProp.project.toString(),
+								item);
+					}
 				}
 			}
 		}

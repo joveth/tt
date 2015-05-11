@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/shape_bg_nocorner"
+            android:splitMotionEvents="false"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -82,6 +83,7 @@
                 android:layout_height="0.5dp"
                 android:background="@drawable/shape_line" />
 
+            <!--
             <LinearLayout
                 android:id="@+id/weibo_lay"
                 style="@style/lineayStyle"
@@ -108,6 +110,7 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/iconfont_submenu" />
             </LinearLayout>
+            -->
         </LinearLayout>
 
         <LinearLayout
@@ -117,6 +120,11 @@
             android:background="@drawable/shape_bg_nocorner"
             android:gravity="center_vertical"
             android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/shape_line" />
 
             <LinearLayout
                 android:id="@+id/about_donate_lay"
@@ -176,6 +184,11 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/iconfont_submenu" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/shape_line" />
         </LinearLayout>
 
         <LinearLayout
@@ -185,6 +198,11 @@
             android:background="@drawable/shape_bg_nocorner"
             android:gravity="center_vertical"
             android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/shape_line" />
 
             <LinearLayout
                 android:id="@+id/about_app_lay"
@@ -212,6 +230,10 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/iconfont_submenu" />
             </LinearLayout>
+             <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/shape_line" />
         </LinearLayout>
     </LinearLayout>
 

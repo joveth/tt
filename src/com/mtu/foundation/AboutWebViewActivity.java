@@ -157,6 +157,7 @@ public class AboutWebViewActivity extends BaseActivity {
 
 	private void getData() {
 		if(!CommonUtil.isNetWorkConnected(this)){
+			progressDialog.dismiss();
 			showSimpleMessageDialog("网络无法连接！");
 			return;
 		}
