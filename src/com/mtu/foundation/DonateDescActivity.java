@@ -99,14 +99,13 @@ public class DonateDescActivity extends BaseActivity {
 								} else {
 									parser.setHTMLStr(t.getRetjson());
 								}
+								String content = parser.getHtmlContent();
 								if (flag) {
-									vDesTxt.setText(Html.fromHtml(parser
-											.getHtmlContent()));
+									vDesTxt.setText(Html.fromHtml(content));
 								}
 								ThreadPoolUtils.execute(new FileOperRunnable(
-										FileUtil.getCacheFile(Constants.CACHE_ABOUT),
-										false, true, parser.getHtmlContent(),
-										null));
+										FileUtil.getCacheFile(Constants.CACHE_DESC),
+										false, true, content, null));
 							}
 						}
 					}

@@ -70,6 +70,7 @@ public class FileOperRunnable implements Runnable {
                 if (msg != null) {
                     msg.what = Constants.RESULT_FAILED;
                 }
+                e.printStackTrace();
             }
             if (handler != null) {
                 handler.sendMessage(msg);
